@@ -56,8 +56,6 @@ module.exports.GetMerkleRootFromArray = function GetMrklRoot (tx) {
 			transform.SwapBytes(tx[i]) + 
 			transform.SwapBytes(tx[i+1]);
 
-		//var swappedPair = transform.SwapBytes(tx[i] + tx[i+1]);
-
 		var hashedPair = hasher.Hash256(hasher.Hash256(swappedPair));
 
 		hashedPairs.push(transform.SwapBytes(hashedPair));
