@@ -1,5 +1,3 @@
-var assert = require('assert');
-
 var Transform = (function () {
     function Transform() {
     }

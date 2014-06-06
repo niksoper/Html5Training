@@ -1,7 +1,5 @@
 /// <reference path="./reference.ts" />
 
-import assert = require('assert');
-
 class Transform {
 
 	public static LittleEndian = (n: number): string => {
