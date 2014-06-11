@@ -1,0 +1,31 @@
+﻿
+body {
+    padding-top: 40px;
+    background-image: url(matrix.jpg);
+}
+
+h1, h3 {
+    display: inline-block;
+    background-color: black;
+}
+
+a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    border-bottom: 2px solid;
+}
+
+.prop-label::after {
+    content: ':';
+}
+
+.prop-label {
+    font-weight: bold;
+}
+
+.page-link {
+    cursor: pointer;
+}   

@@ -1,0 +1,33 @@
+﻿<h3>Block detail</h3>
+
+<div class="panel panel-default">
+
+    <div class="panel-body">
+        <span class="prop-label">Hash</span>
+        <span class="prop">{{vm.block.hash}}</span>
+    </div>
+
+</div>
+
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+
+        Transactions ({{vm.block.n_tx}}), page {{vm.activePage}} of {{vm.pages.length}}
+
+        <div>
+            <label for="pageSize" class="prop-label">Tx per page</label>
+            <select ng-model="vm.pageSize" ng-options="size for size in [5, 10, 25, 50, 100]" />
+            <!--<input id="pageSize" type="number" min="1" max="{{vm.block.n_tx}}" ng-model="vm.pageSize" />-->
+        </div>
+
+        <ul class="pagination pagination-sm">
+            <li ng-repeat="i in vm.pages" ng-class="{active: i === vm.activePage}">
+                <span class="page-link" ng-click="vm.setActivePage(i)">{{i}}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="panel panel-body" ng-repeat="t in vm.transactions">
+        <span class="prop-label">#{{t.index}}</span>
+        <span>{{t.hash}}</span>
+    </div>
+</div>
