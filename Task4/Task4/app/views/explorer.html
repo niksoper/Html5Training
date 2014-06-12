@@ -3,21 +3,23 @@
 
 <div class="container">
     <label for="blockSearch" class="prop-label">Search</label>
-    <input type="search" id="blockSearch" ng-model="vm.searchText" />
+    <input type="search" id="blockSearch" ng-model="vm.searchText" placeholder="#index or hash" />
 </div>
 
 <table class="table table-striped">
     <thead>
         <tr>
+            <th>#</th>
             <th>Hash</th>
             <th>Time</th>
             <th>Transactions</th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="b in vm.blocks">
+        <tr ng-repeat="b in vm.blocks | filter:vm.filterBySearch">
+            <td>{{b.index}}</td>
             <td>
-                <a href="#/block/{{b.hash}}" >{{$parent.vm.shrinkHash(b.hash)}}</a>
+                <a href="#/block/{{b.hash}}" title="{{b.hash}}">{{$parent.vm.shrinkHash(b.hash)}}</a>
             </td>
             <td>{{b.time * 1000 | date:'dd-MMM, H:mm:ss'}}</td>
             <td>{{b.n_tx}}</td>

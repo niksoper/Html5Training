@@ -1,12 +1,58 @@
 ﻿import blocks = require('../blocks');
 import bc = require('../bitcoin');
 
+export class BlockViewModel {
+    constructor(
+        public index: number,
+        public hash: string,
+        public time: number,
+        public n_tx: number) {
+    }
+}
+
 export class ExplorerController {
 
-    blocks: bc.IBlock[] = blocks;
-
+    searchText: string;
+    blocks: BlockViewModel[];
+    
     constructor($scope) {
         $scope.vm = this;
+
+        this.getBlocksViewModel();
+    }
+
+    getBlocksViewModel = (): void => {
+        this.blocks = [];
+        for (var i = 0; i < blocks.length; i++) {
+
+            var b: bc.IBlock = blocks[i];
+
+            this.blocks.push(new BlockViewModel(
+                i+1,
+                b.hash,
+                b.time,
+                b.n_tx));                
+        }
+    }
+
+    filterBySearch = (item: BlockViewModel): boolean => {
+
+        if (!this.searchText) {
+            return true;
+        }
+
+        if (item.hash.indexOf(this.searchText) != -1) {
+            return true;
+        }
+
+        if (this.searchText.indexOf('#') === 0) {
+            var numberSearch = parseInt(this.searchText.substring(1));
+            if (numberSearch !== undefined && item.index === numberSearch) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     shrinkHash = (hash: string): string => {
@@ -25,7 +71,7 @@ export class ExplorerController {
 
         if (lastZero >= 0) {
             shrunk =
-                '0x' + lastZero + '...' +
+                '0x' + (lastZero + 1) + '...' +
                 hash.substring(lastZero + 1, lastZero + 3) + '...' +
                 hash.substring(hash.length - 2);
         } else {
