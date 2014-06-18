@@ -185,5 +185,7 @@ $RECYCLE.BIN/
 # npm
 node_modules/
 
+# bower
+bower_components
 # sublime
 *.sublime-workspace

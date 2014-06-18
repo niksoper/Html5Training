@@ -1,0 +1,33 @@
+﻿
+<h3>{{vm.blocks.length}} blocks</h3>
+
+<div class="container">
+    <label for="blockSearch" class="prop-label">Search</label>
+    <input type="search" id="blockSearch" ng-model="vm.searchText" placeholder="#index or hash" />
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Hash</th>
+            <th>Time</th>
+            <th>Transactions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="b in vm.blocks | filter:vm.filterBySearch">
+            <td>{{b.index}}</td>
+            <td>
+                <a href="#/block/{{b.hash}}" title="{{b.hash}}">{{$parent.vm.shrinkHash(b.hash)}}</a>
+            </td>
+            <td>{{b.time * 1000 | date:'dd-MMM, H:mm:ss'}}</td>
+            <td>{{b.n_tx}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="pager">
+    <li><a href="#" title="Previous 10 blocks">Previous</a></li>
+    <li><a href="#" title="Next 10 blocks">Next</a></li>
+</ul>

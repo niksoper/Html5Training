@@ -1,0 +1,26 @@
+body {
+  padding-top: 40px;
+  background-image: url(../img/matrix.jpg); }
+
+h1, h3 {
+  display: inline-block;
+  text-shadow: 0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white, 0 0 3px black, 0 0 2px black, 0 0 1px black; }
+
+a {
+  text-decoration: none;
+  font-weight: bold; }
+
+a:hover {
+  border-bottom: 2px solid; }
+
+.prop-label::after {
+  content: ':'; }
+
+.prop-label {
+  font-weight: bold; }
+
+.page-link {
+  cursor: pointer; }
+
+label {
+  text-shadow: 0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white, 0 0 3px black, 0 0 2px black, 0 0 1px black; }
