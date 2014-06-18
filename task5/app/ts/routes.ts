@@ -1,8 +1,9 @@
-﻿import app = require('app');
+﻿import bitCoinApp = require('bitCoinApp');
 import explorer = require('controllers/explorer');
 import block = require('controllers/block');
+import loader = require('services/loadBlock');
 
-app.config(['$routeProvider',
+bitCoinApp.config(['$routeProvider',
     function ($routeProvider: ng.route.IRouteProvider) {
 
         $routeProvider
@@ -18,3 +19,5 @@ app.config(['$routeProvider',
 
     }
 ]);
+
+bitCoinApp.factory('loadBlockService', ['$resource', loader.LoadBlock]);

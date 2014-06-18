@@ -14,7 +14,7 @@
     exports.BlockViewModel = BlockViewModel;
 
     var ExplorerController = (function () {
-        function ExplorerController($scope) {
+        function ExplorerController($scope, loadBlockService) {
             var _this = this;
             this.getBlocksViewModel = function () {
                 _this.blocks = [];

@@ -15,8 +15,9 @@ export class ExplorerController {
     searchText: string;
     blocks: BlockViewModel[];
     
-    constructor($scope) {
+    constructor($scope, loadBlockService) {
         $scope.vm = this;
+
 
         this.getBlocksViewModel();
     }

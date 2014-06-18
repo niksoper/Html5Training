@@ -1,4 +1,4 @@
-module Mastery {
+module BitCoinClient {
     'use strict';
 
     require.config({
@@ -7,6 +7,7 @@ module Mastery {
             // set paths to requirejs modules so they can be loaded by requirejs
             'angular': '../bower_components/angular/angular',
             'angular-route': '../bower_components/angular-route/angular-route',
+            'angularResource': '../bower_components/angular-resource/angular-resource',
             'jquery': '../bower_components/jquery/jquery',
             'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap'
         },
@@ -15,7 +16,12 @@ module Mastery {
             'angular': {
                 exports: 'angular'
             },
-            'angular-route': ['angular'],
+            'angular-route': {
+                deps: ['angular']
+            },
+            'angularResource': {
+                deps: ['angular']
+            },
             'bootstrap': ['jquery']
         }
     });
@@ -27,7 +33,7 @@ module Mastery {
         function (angular: ng.IAngularStatic, $: JQueryStatic) {
 
             $(function () {
-                angular.bootstrap(document, ['app']);
+                angular.bootstrap(document, ['bitCoinApp']);
             });
         }
         );

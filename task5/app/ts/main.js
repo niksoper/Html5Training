@@ -1,11 +1,12 @@
-var Mastery;
-(function (Mastery) {
+var BitCoinClient;
+(function (BitCoinClient) {
     'use strict';
 
     require.config({
         paths: {
             'angular': '../bower_components/angular/angular',
             'angular-route': '../bower_components/angular-route/angular-route',
+            'angularResource': '../bower_components/angular-resource/angular-resource',
             'jquery': '../bower_components/jquery/jquery',
             'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap'
         },
@@ -13,7 +14,12 @@ var Mastery;
             'angular': {
                 exports: 'angular'
             },
-            'angular-route': ['angular'],
+            'angular-route': {
+                deps: ['angular']
+            },
+            'angularResource': {
+                deps: ['angular']
+            },
             'bootstrap': ['jquery']
         }
     });
@@ -26,7 +32,7 @@ var Mastery;
         'routes'
     ], function (angular, $) {
         $(function () {
-            angular.bootstrap(document, ['app']);
+            angular.bootstrap(document, ['bitCoinApp']);
         });
     });
-})(Mastery || (Mastery = {}));
+})(BitCoinClient || (BitCoinClient = {}));

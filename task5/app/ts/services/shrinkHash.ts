@@ -1,4 +1,4 @@
-﻿import app = require('app');
+﻿import bitCoinApp = require('bitCoinApp');
 
 export class ShrinkHash {
     public Shrink = (hash: string): string => {
@@ -28,4 +28,4 @@ export class ShrinkHash {
     }
 }
 
-app.factory('shrinkHashService', ShrinkHash);
+bitCoinApp.factory('shrinkHashService', ShrinkHash);

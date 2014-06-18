@@ -1,5 +1,5 @@
-﻿define(["require", "exports", 'app'], function(require, exports, __app__) {
-    var app = __app__;
+﻿define(["require", "exports", 'bitCoinApp'], function(require, exports, __bitCoinApp__) {
+    var bitCoinApp = __bitCoinApp__;
 
     var ShrinkHash = (function () {
         function ShrinkHash() {
@@ -29,5 +29,5 @@
     })();
     exports.ShrinkHash = ShrinkHash;
 
-    app.factory('shrinkHashService', ShrinkHash);
+    bitCoinApp.factory('shrinkHashService', ShrinkHash);
 });

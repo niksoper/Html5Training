@@ -1,9 +1,10 @@
-﻿define(["require", "exports", 'app', 'controllers/explorer', 'controllers/block'], function(require, exports, __app__, __explorer__, __block__) {
-    var app = __app__;
+﻿define(["require", "exports", 'bitCoinApp', 'controllers/explorer', 'controllers/block', 'services/loadBlock'], function(require, exports, __bitCoinApp__, __explorer__, __block__, __loader__) {
+    var bitCoinApp = __bitCoinApp__;
     var explorer = __explorer__;
     var block = __block__;
+    var loader = __loader__;
 
-    app.config([
+    bitCoinApp.config([
         '$routeProvider',
         function ($routeProvider) {
             $routeProvider.when('/', {
@@ -15,4 +16,6 @@
             }).otherwise({ redirectTo: '/' });
         }
     ]);
+
+    bitCoinApp.factory('loadBlockService', ['$resource', loader.LoadBlock]);
 });
