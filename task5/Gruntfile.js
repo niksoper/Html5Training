@@ -14,7 +14,6 @@ module.exports = function (grunt) {
             },
             dev: {
                 src: ["app/**/*.ts"],   // compile all .ts files in the app directory
-                //watch: 'app'            // watch the app directory for changes
             },
         },
         sass: {
