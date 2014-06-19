@@ -4,6 +4,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-ts");
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
 
     // Configure grunt here
     grunt.initConfig({
@@ -35,6 +36,24 @@ module.exports = function (grunt) {
             ts: {
                 files: 'app/ts/**/*.ts',
                 tasks: ['ts:dev']
+            }
+        },
+        connect: {
+            test : {
+              port : 8000
+            }
+        },
+        jasmine: {
+            taskName: {
+                src: 'app/ts/**/*.js',
+                options: {
+                    specs: 'test/unit/*Spec.js',
+                    host: 'http://localhost:8000/',
+                    template: require('grunt-template-jasmine-requirejs'),
+                    templateOptions: {
+                      requireConfigFile: 'test/test-main.js'
+                    }
+                }
             }
         }
     });

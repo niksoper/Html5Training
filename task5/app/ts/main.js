@@ -6,7 +6,7 @@ var BitCoinClient;
         paths: {
             'angular': '../bower_components/angular/angular',
             'angular-route': '../bower_components/angular-route/angular-route',
-            'angularResource': '../bower_components/angular-resource/angular-resource',
+            'angular-resource': '../bower_components/angular-resource/angular-resource',
             'jquery': '../bower_components/jquery/jquery',
             'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap'
         },
@@ -17,7 +17,7 @@ var BitCoinClient;
             'angular-route': {
                 deps: ['angular']
             },
-            'angularResource': {
+            'angular-resource': {
                 deps: ['angular']
             },
             'bootstrap': ['jquery']
@@ -27,7 +27,6 @@ var BitCoinClient;
     require([
         'angular',
         'jquery',
-        'angular-route',
         'bootstrap',
         'routes'
     ], function (angular, $) {
