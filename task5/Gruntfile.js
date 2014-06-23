@@ -1,4 +1,8 @@
+/*jslint node: true */
+
 module.exports = function (grunt) {
+
+    'use strict';
 
     // load the tasks
     grunt.loadNpmTasks("grunt-ts");
@@ -14,8 +18,8 @@ module.exports = function (grunt) {
                 sourcemap: false        // generate .js.map files?
             },
             dev: {
-                src: ["app/**/*.ts"],   // compile all .ts files in the app directory
-            },
+                src: ["app/**/*.ts"]   // compile all .ts files in the app directory
+            }
         },
         sass: {
             dist: {
@@ -40,7 +44,7 @@ module.exports = function (grunt) {
         },
         connect: {
             test : {
-              port : 8000
+                port : 8000
             }
         },
         jasmine: {
@@ -51,7 +55,7 @@ module.exports = function (grunt) {
                     host: 'http://localhost:8000/',
                     template: require('grunt-template-jasmine-requirejs'),
                     templateOptions: {
-                      requireConfigFile: 'test/test-main.js'
+                        requireConfigFile: 'test/test-main.js'
                     }
                 }
             }
@@ -59,4 +63,4 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['ts:dev', 'sass', 'watch']);
-}
+};
