@@ -1,7 +1,7 @@
 export class LoadBlock {
 
 	constructor($resource) {
-		console.log($resource);
+        console.log('Called LoadBlock constructor.');
 	}
 	
 }

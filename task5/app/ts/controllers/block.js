@@ -12,7 +12,7 @@
     exports.TxViewModel = TxViewModel;
 
     var Controller = (function () {
-        function Controller($scope, $routeParams) {
+        function Controller($scope, $routeParams, shrinkHashService) {
             var _this = this;
             this.setPages = function () {
                 var fractionalPages = _this.block.n_tx / _this.pageSize;
@@ -44,6 +44,8 @@
             };
             $scope.vm = this;
 
+            this.shrinkHash = shrinkHashService.Shrink;
+
             this.block = this.getBlock($routeParams.hash);
 
             this.pageSize = 10;
@@ -70,3 +72,4 @@
     })();
     exports.Controller = Controller;
 });
+//# sourceMappingURL=block.js.map

@@ -8,3 +8,4 @@
     
     return bitCoinApp;
 });
+//# sourceMappingURL=bitCoinApp.js.map

@@ -71,8 +71,11 @@ module.exports = function (grunt) {
             }
         },
         open: {
-            dev: {
+            tests: {
                 path: 'http://localhost:<%= connect.test.options.port %>/_SpecRunner.html'
+            },
+            app: {
+                path: 'http://localhost:<%= connect.app.options.port %>'
             }
         },
         watch: {

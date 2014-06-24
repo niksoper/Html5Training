@@ -13,10 +13,13 @@ export class Controller {
     activePage: number;
     transactions: TxViewModel[];
     pageSize: number;
+    shrinkHash: Function;
 
-    constructor($scope, $routeParams) {
+    constructor($scope, $routeParams, shrinkHashService) {
 
         $scope.vm = this;
+
+        this.shrinkHash = shrinkHashService.Shrink;
 
         this.block = this.getBlock($routeParams.hash);
 

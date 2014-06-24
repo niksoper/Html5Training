@@ -13,3 +13,4 @@ define(["require", "exports", 'bitCoinApp'], function(require, exports, __bitCoi
 
     bitCoinApp.service('helloService', Hello);
 });
+//# sourceMappingURL=hello.js.map

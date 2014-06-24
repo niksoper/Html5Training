@@ -2,6 +2,7 @@
 import explorer = require('controllers/explorer');
 import block = require('controllers/block');
 import loader = require('services/loadBlock');
+import shrinker = require('services/shrinkHash');
 
 bitCoinApp.config(['$routeProvider',
     function ($routeProvider: ng.route.IRouteProvider) {
@@ -20,4 +21,5 @@ bitCoinApp.config(['$routeProvider',
     }
 ]);
 
-bitCoinApp.factory('loadBlockService', ['$resource', loader.LoadBlock]);
+bitCoinApp.service('loadBlockService', ['$resource', loader.LoadBlock]);
+bitCoinApp.service('shrinkHashService', [shrinker.ShrinkHash]);

@@ -24,10 +24,10 @@
 
                 return shrunk;
             };
+            console.log('Called ShrinkHash constructor.');
         }
         return ShrinkHash;
     })();
     exports.ShrinkHash = ShrinkHash;
-
-    bitCoinApp.factory('shrinkHashService', ShrinkHash);
 });
+//# sourceMappingURL=shrinkHash.js.map

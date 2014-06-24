@@ -1,8 +1,9 @@
-﻿define(["require", "exports", 'bitCoinApp', 'controllers/explorer', 'controllers/block', 'services/loadBlock'], function(require, exports, __bitCoinApp__, __explorer__, __block__, __loader__) {
+﻿define(["require", "exports", 'bitCoinApp', 'controllers/explorer', 'controllers/block', 'services/loadBlock', 'services/shrinkHash'], function(require, exports, __bitCoinApp__, __explorer__, __block__, __loader__, __shrinker__) {
     var bitCoinApp = __bitCoinApp__;
     var explorer = __explorer__;
     var block = __block__;
     var loader = __loader__;
+    var shrinker = __shrinker__;
 
     bitCoinApp.config([
         '$routeProvider',
@@ -17,5 +18,7 @@
         }
     ]);
 
-    bitCoinApp.factory('loadBlockService', ['$resource', loader.LoadBlock]);
+    bitCoinApp.service('loadBlockService', ['$resource', loader.LoadBlock]);
+    bitCoinApp.service('shrinkHashService', [shrinker.ShrinkHash]);
 });
+//# sourceMappingURL=routes.js.map

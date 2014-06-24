@@ -14,7 +14,7 @@
     exports.BlockViewModel = BlockViewModel;
 
     var ExplorerController = (function () {
-        function ExplorerController($scope, loadBlockService) {
+        function ExplorerController($scope, loadBlockService, shrinkHashService) {
             var _this = this;
             this.getBlocksViewModel = function () {
                 _this.blocks = [];
@@ -42,28 +42,9 @@
 
                 return false;
             };
-            this.shrinkHash = function (hash) {
-                var zeroes = 0;
-                var lastZero = -1;
-                for (var i = 0; i < hash.length; i++) {
-                    if (hash.charAt(i) === '0') {
-                        lastZero = i;
-                    } else {
-                        break;
-                    }
-                }
-
-                var shrunk = '';
-
-                if (lastZero >= 0) {
-                    shrunk = '0x' + (lastZero + 1) + '...' + hash.substring(lastZero + 1, lastZero + 3) + '...' + hash.substring(hash.length - 2);
-                } else {
-                    shrunk = hash;
-                }
-
-                return shrunk;
-            };
             $scope.vm = this;
+
+            this.shrinkHash = shrinkHashService.Shrink;
 
             this.getBlocksViewModel();
         }
@@ -71,3 +52,4 @@
     })();
     exports.ExplorerController = ExplorerController;
 });
+//# sourceMappingURL=explorer.js.map

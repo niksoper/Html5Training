@@ -1,6 +1,11 @@
 ﻿import bitCoinApp = require('bitCoinApp');
 
 export class ShrinkHash {
+
+    constructor() {
+        console.log('Called ShrinkHash constructor.');
+    }
+
     public Shrink = (hash: string): string => {
 
         var zeroes = 0;
@@ -27,5 +32,3 @@ export class ShrinkHash {
         return shrunk;
     }
 }
-
-bitCoinApp.factory('shrinkHashService', ShrinkHash);

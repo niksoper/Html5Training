@@ -4,7 +4,7 @@
 
     <div class="panel-body">
         <span class="prop-label">Hash</span>
-        <span class="prop">{{vm.block.hash}}</span>
+        <span class="prop" title="{{vm.block.hash}}">{{vm.shrinkHash(vm.block.hash)}}</span>
     </div>
 
 </div>
@@ -17,7 +17,6 @@
         <div>
             <label for="pageSize" class="prop-label">Tx per page</label>
             <select ng-model="vm.pageSize" ng-options="size for size in [5, 10, 25, 50, 100]" />
-            <!--<input id="pageSize" type="number" min="1" max="{{vm.block.n_tx}}" ng-model="vm.pageSize" />-->
         </div>
 
         <ul class="pagination pagination-sm">
@@ -28,6 +27,6 @@
     </div>
     <div class="panel panel-body" ng-repeat="t in vm.transactions">
         <span class="prop-label">#{{t.index}}</span>
-        <span>{{t.hash}}</span>
+        <span>{{vm.shrinkHash(t.hash)}}</span>
     </div>
 </div>
