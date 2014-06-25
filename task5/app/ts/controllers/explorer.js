@@ -34,25 +34,31 @@
 
                 return false;
             };
-            this.addBlock = function (hash) {
-                var self = _this;
+            this.addBlock = function (hash, remaining) {
+                if (remaining > 0) {
+                    var self = _this;
 
-                _this.$http.get('/blockexplorer/rawblock/' + hash).success(function (data, status, headers, config) {
-                    self.blocks.push(new BlockViewModel(self.blocks.length + 1, data.hash, data.time, data.n_tx));
+                    _this.$http.get('/blockexplorer/rawblock/' + hash).success(function (data, status, headers, config) {
+                        self.blocks.push(new BlockViewModel(self.blocks.length + 1, data.hash, data.time, data.n_tx));
 
-                    self.addBlock(data.prev_block);
-                }).error(function (data, status, headers, config) {
-                });
+                        self.addBlock(data.prev_block, remaining - 1);
+
+                        self.lastBlockHash = data.hash;
+                    }).error(function (data, status, headers, config) {
+                    });
+                }
             };
             this.addLatestBlock = function () {
                 var self = _this;
 
                 _this.$http.get('/blockexplorer/q/latesthash').success(function (data, status, headers, config) {
-                    self.addBlock(data);
+                    self.addBlock(data, self.newBlocks);
                 }).error(function (data, status, headers, config) {
                 });
             };
             $scope.vm = this;
+
+            this.newBlocks = 10;
 
             this.$http = $http;
 

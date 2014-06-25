@@ -16,9 +16,13 @@ export class ExplorerController {
     blocks: BlockViewModel[];
     shrinkHash: Function;
     $http: ng.IHttpService;
+    newBlocks: number;
+    lastBlockHash: string;
     
     constructor($scope, $http: ng.IHttpService, shrinkHashService) {
         $scope.vm = this;        
+
+        this.newBlocks = 10;
 
         this.$http = $http;
 
@@ -49,26 +53,30 @@ export class ExplorerController {
         return false;
     }
 
-    addBlock = (hash: string): void => {
+    addBlock = (hash: string, remaining: number): void => {
 
-        var self = this;
+        if (remaining > 0) {
 
-        this.$http.get('/blockexplorer/rawblock/' + hash)
-            .success(function (data, status, headers, config) {
+            var self = this;
 
-                self.blocks.push(new BlockViewModel(
-                    self.blocks.length + 1,
-                    data.hash,
-                    data.time,
-                    data.n_tx));
+            this.$http.get('/blockexplorer/rawblock/' + hash)
+                .success(function (data, status, headers, config) {
 
-                self.addBlock(data.prev_block);
+                    self.blocks.push(new BlockViewModel(
+                        self.blocks.length + 1,
+                        data.hash,
+                        data.time,
+                        data.n_tx));
 
-            })
-            .error(function (data, status, headers, config) {
+                    self.addBlock(data.prev_block, remaining - 1);
 
-            });
+                    self.lastBlockHash = data.hash;
 
+                })
+                .error(function (data, status, headers, config) {
+
+                });
+        }
     }
 
     addLatestBlock = (): void => {
@@ -78,7 +86,7 @@ export class ExplorerController {
         this.$http.get('/blockexplorer/q/latesthash')
             .success(function (data, status, headers, config) {
 
-                self.addBlock(data);
+                self.addBlock(data, self.newBlocks);
 
             })
             .error(function (data, status, headers, config) {
