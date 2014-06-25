@@ -1,14 +1,9 @@
 define(["require", "exports"], function(require, exports) {
     var LoadBlock = (function () {
-        function LoadBlock($resource) {
-            var _this = this;
+        function LoadBlock($http) {
             this.Get = function () {
-                var latestBlock = _this.LatestHash.get(function () {
-                    debugger;
-                });
             };
-            this.LatestHash = $resource('blockexplorer/q/latesthash');
-            this.LatestBlock = $resource('blockexplorer/rawblock/:hash');
+            this.$http = $http;
         }
         return LoadBlock;
     })();

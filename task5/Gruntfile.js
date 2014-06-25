@@ -52,6 +52,7 @@ module.exports = function (grunt) {
                         context: '/blockexplorer',
                         host: 'blockexplorer.com',
                         changeOrigin: true,
+                        xForward: false,
                         rewrite: {
                             '^/blockexplorer': ''
                         }
@@ -62,7 +63,6 @@ module.exports = function (grunt) {
                     base: 'app',
                     logger: 'dev',
                     hostname: 'localhost',
-                    keepalive: true,
                     middleware: function(connect) {
 
                         var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;

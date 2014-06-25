@@ -14,15 +14,10 @@
     exports.BlockViewModel = BlockViewModel;
 
     var ExplorerController = (function () {
-        function ExplorerController($scope, loadBlockService, shrinkHashService) {
+        function ExplorerController($scope, $http, shrinkHashService) {
             var _this = this;
             this.getBlocksViewModel = function () {
                 _this.blocks = [];
-                for (var i = 0; i < blocks.length; i++) {
-                    var b = blocks[i];
-
-                    _this.blocks.push(new BlockViewModel(i + 1, b.hash, b.time, b.n_tx));
-                }
             };
             this.filterBySearch = function (item) {
                 if (!_this.searchText) {
@@ -42,14 +37,26 @@
 
                 return false;
             };
+            this.addBlock = function () {
+                var self = _this;
+
+                _this.$http.get('/blockexplorer/q/latesthash').success(function (data, status, headers, config) {
+                    self.$http.get('/blockexplorer/rawblock/' + data).success(function (data, status, headers, config) {
+                        self.blocks.push(new BlockViewModel(self.blocks.length + 1, data.hash, data.time, data.n_tx));
+                    }).error(function (data, status, headers, config) {
+                    });
+                }).error(function (data, status, headers, config) {
+                });
+            };
             $scope.vm = this;
 
-            debugger;
-            loadBlockService.Get();
+            this.$http = $http;
 
             this.shrinkHash = shrinkHashService.Shrink;
 
             this.getBlocksViewModel();
+
+            this.addBlock();
         }
         return ExplorerController;
     })();

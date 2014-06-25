@@ -1,20 +1,16 @@
 export class LoadBlock {
 
-	LatestHash: any;
-	LatestBlock: any;
+	$http: ng.IHttpService
 
-	constructor($resource) {
+	constructor($http: ng.IHttpService) {
         
-		this.LatestHash = $resource('blockexplorer/q/latesthash');
-		this.LatestBlock = $resource('blockexplorer/rawblock/:hash');
+		this.$http = $http;
 		
 	}
 
 	public Get = (): any => {
 
-		var latestBlock = this.LatestHash.get(function () {
-			debugger;
-		});
+		
 
 	}
 	
