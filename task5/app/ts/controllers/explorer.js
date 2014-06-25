@@ -54,13 +54,14 @@
                 _this.$http.get('/blockexplorer/q/latesthash').success(function (data, status, headers, config) {
                     self.addBlock(data, self.newBlocks);
                 }).error(function (data, status, headers, config) {
+                    self.errorMsg = 'Latest hash could not be found.';
                 });
             };
+            this.$http = $http;
+
             $scope.vm = this;
 
             this.newBlocks = 10;
-
-            this.$http = $http;
 
             this.shrinkHash = shrinkHashService.Shrink;
 

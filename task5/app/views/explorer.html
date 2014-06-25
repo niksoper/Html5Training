@@ -18,7 +18,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="b in vm.blocks | filter:vm.filterBySearch">
+        <tr id="block{{b.index}}" ng-repeat="b in vm.blocks | filter:vm.filterBySearch">
             <td>{{b.index}}</td>
             <td>
                 <a href="#/block/{{b.hash}}" title="{{b.hash}}">{{$parent.vm.shrinkHash(b.hash)}}</a>
@@ -29,9 +29,16 @@
     </tbody>
 </table>
 
-<button class="btn btn-primary" ng-click="vm.addBlock(vm.nextBlockHash, vm.newBlocks)">Load {{vm.newBlocks}} more</button>
+<div class="panel panel-danger" ng-show="vm.errorMsg.length">
+  <div class="panel-heading">
+    <h3 class="panel-title">Error</h3>
+  </div>
+  <div class="panel-body">{{vm.errorMsg}}</div>
+</div>
 
-<ul class="pager">
+<button class="btn btn-primary" ng-show="vm.blocks.length % vm.newBlocks === 0" ng-click="vm.addBlock(vm.nextBlockHash, vm.newBlocks)">Load {{vm.newBlocks}} more</button>
+
+<ul class="pager" ng-show="vm.blocks.length">
     <li><a href="#" title="Previous 10 blocks">Previous</a></li>
     <li><a href="#" title="Next 10 blocks">Next</a></li>
 </ul>

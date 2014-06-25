@@ -12,19 +12,22 @@ export class BlockViewModel {
 
 export class ExplorerController {
 
+    $http: ng.IHttpService;
+
     searchText: string;
     blocks: BlockViewModel[];
     shrinkHash: Function;
-    $http: ng.IHttpService;
     newBlocks: number;
     nextBlockHash: string;
+    errorMsg: string;
     
     constructor($scope, $http: ng.IHttpService, shrinkHashService) {
+        
+        this.$http = $http;
+
         $scope.vm = this;        
 
         this.newBlocks = 10;
-
-        this.$http = $http;
 
         this.shrinkHash = shrinkHashService.Shrink;
 
@@ -90,6 +93,9 @@ export class ExplorerController {
 
             })
             .error(function (data, status, headers, config) {
+
+                self.errorMsg = 'Latest hash could not be found.';
+
             });
 
     }
