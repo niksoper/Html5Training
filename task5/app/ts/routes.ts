@@ -1,7 +1,6 @@
 ﻿import bitCoinApp = require('bitCoinApp');
 import explorer = require('controllers/explorer');
 import block = require('controllers/block');
-import loader = require('services/loadBlock');
 import shrinker = require('services/shrinkHash');
 
 bitCoinApp.config(['$routeProvider',
@@ -21,5 +20,4 @@ bitCoinApp.config(['$routeProvider',
     }
 ]);
 
-bitCoinApp.service('loadBlockService', ['$resource', loader.LoadBlock]);
 bitCoinApp.service('shrinkHashService', [shrinker.ShrinkHash]);
