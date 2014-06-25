@@ -14,18 +14,17 @@ export class Controller {
     transactions: TxViewModel[];
     pageSize: number;
     shrinkHash: Function;
+    $http: ng.IHttpService;
 
-    constructor($scope, $routeParams, shrinkHashService) {
+    constructor($scope, $routeParams, $http: ng.IHttpService, shrinkHashService) {
 
         $scope.vm = this;
 
+        this.$http = $http;
+
         this.shrinkHash = shrinkHashService.Shrink;
 
-        this.block = this.getBlock($routeParams.hash);
-
-        this.pageSize = 10;
-        this.setActivePage(1);
-        this.setPages();
+        this.getBlock($routeParams.hash, this.setBlock);
 
         var controller = this;
 
@@ -34,6 +33,13 @@ export class Controller {
             controller.setPages();
         });
 
+    }
+
+    private setBlock = (rawBlock: bc.IBlock): void => {
+        this.block = rawBlock;
+        this.pageSize = 10;
+        this.setActivePage(1);
+        this.setPages();
     }
 
     private setPages = (): void => {
@@ -52,15 +58,20 @@ export class Controller {
         }
     }
 
-    private getBlock = (hash: string): bc.IBlock => {
+    private getBlock = (hash: string, setBlock: Function): void => {
 
-        for (var i = 0; i < blocks.length; i++) {
-            if (blocks[i].hash === hash) {
-                return blocks[i];            
-            }
-        }
+        var self = this;
 
-        return undefined;
+        this.$http.get('/blockexplorer/rawblock/' + hash)
+            .success(function(data, status, headers, config) {
+
+                setBlock(data);
+
+            })
+            .error(function(data, status, headers, config) {
+
+            });
+
     }
 
     private getTransactionsForPage(page: number): void {

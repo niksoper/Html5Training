@@ -12,8 +12,14 @@
     exports.TxViewModel = TxViewModel;
 
     var Controller = (function () {
-        function Controller($scope, $routeParams, shrinkHashService) {
+        function Controller($scope, $routeParams, $http, shrinkHashService) {
             var _this = this;
+            this.setBlock = function (rawBlock) {
+                _this.block = rawBlock;
+                _this.pageSize = 10;
+                _this.setActivePage(1);
+                _this.setPages();
+            };
             this.setPages = function () {
                 var fractionalPages = _this.block.n_tx / _this.pageSize;
                 var remainder = _this.block.n_tx % _this.pageSize;
@@ -29,14 +35,13 @@
                     _this.getTransactionsForPage(_this.activePage);
                 }
             };
-            this.getBlock = function (hash) {
-                for (var i = 0; i < blocks.length; i++) {
-                    if (blocks[i].hash === hash) {
-                        return blocks[i];
-                    }
-                }
+            this.getBlock = function (hash, setBlock) {
+                var self = _this;
 
-                return undefined;
+                _this.$http.get('/blockexplorer/rawblock/' + hash).success(function (data, status, headers, config) {
+                    setBlock(data);
+                }).error(function (data, status, headers, config) {
+                });
             };
             this.setActivePage = function (page) {
                 _this.activePage = page;
@@ -44,13 +49,11 @@
             };
             $scope.vm = this;
 
+            this.$http = $http;
+
             this.shrinkHash = shrinkHashService.Shrink;
 
-            this.block = this.getBlock($routeParams.hash);
-
-            this.pageSize = 10;
-            this.setActivePage(1);
-            this.setPages();
+            this.getBlock($routeParams.hash, this.setBlock);
 
             var controller = this;
 

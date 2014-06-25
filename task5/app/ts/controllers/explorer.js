@@ -43,7 +43,7 @@
 
                         self.addBlock(data.prev_block, remaining - 1);
 
-                        self.lastBlockHash = data.hash;
+                        self.nextBlockHash = data.prev_block;
                     }).error(function (data, status, headers, config) {
                     });
                 }

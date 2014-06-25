@@ -17,7 +17,7 @@ export class ExplorerController {
     shrinkHash: Function;
     $http: ng.IHttpService;
     newBlocks: number;
-    lastBlockHash: string;
+    nextBlockHash: string;
     
     constructor($scope, $http: ng.IHttpService, shrinkHashService) {
         $scope.vm = this;        
@@ -70,7 +70,7 @@ export class ExplorerController {
 
                     self.addBlock(data.prev_block, remaining - 1);
 
-                    self.lastBlockHash = data.hash;
+                    self.nextBlockHash = data.prev_block;
 
                 })
                 .error(function (data, status, headers, config) {
