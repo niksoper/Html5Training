@@ -39,6 +39,8 @@
 
                 _this.$http.get('/blockexplorer/rawblock/' + hash).success(function (data, status, headers, config) {
                     self.blocks.push(new BlockViewModel(self.blocks.length + 1, data.hash, data.time, data.n_tx));
+
+                    self.addBlock(data.prev_block);
                 }).error(function (data, status, headers, config) {
                 });
             };

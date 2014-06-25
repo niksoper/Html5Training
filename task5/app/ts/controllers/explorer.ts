@@ -62,6 +62,8 @@ export class ExplorerController {
                     data.time,
                     data.n_tx));
 
+                self.addBlock(data.prev_block);
+
             })
             .error(function (data, status, headers, config) {
 
