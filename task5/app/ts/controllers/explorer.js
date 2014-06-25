@@ -16,9 +16,6 @@
     var ExplorerController = (function () {
         function ExplorerController($scope, $http, shrinkHashService) {
             var _this = this;
-            this.getBlocksViewModel = function () {
-                _this.blocks = [];
-            };
             this.filterBySearch = function (item) {
                 if (!_this.searchText) {
                     return true;
@@ -37,14 +34,19 @@
 
                 return false;
             };
-            this.addBlock = function () {
+            this.addBlock = function (hash) {
+                var self = _this;
+
+                _this.$http.get('/blockexplorer/rawblock/' + hash).success(function (data, status, headers, config) {
+                    self.blocks.push(new BlockViewModel(self.blocks.length + 1, data.hash, data.time, data.n_tx));
+                }).error(function (data, status, headers, config) {
+                });
+            };
+            this.addLatestBlock = function () {
                 var self = _this;
 
                 _this.$http.get('/blockexplorer/q/latesthash').success(function (data, status, headers, config) {
-                    self.$http.get('/blockexplorer/rawblock/' + data).success(function (data, status, headers, config) {
-                        self.blocks.push(new BlockViewModel(self.blocks.length + 1, data.hash, data.time, data.n_tx));
-                    }).error(function (data, status, headers, config) {
-                    });
+                    self.addBlock(data);
                 }).error(function (data, status, headers, config) {
                 });
             };
@@ -54,9 +56,9 @@
 
             this.shrinkHash = shrinkHashService.Shrink;
 
-            this.getBlocksViewModel();
+            this.blocks = [];
 
-            this.addBlock();
+            this.addLatestBlock();
         }
         return ExplorerController;
     })();

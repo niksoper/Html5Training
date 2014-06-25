@@ -24,23 +24,9 @@ export class ExplorerController {
 
         this.shrinkHash = shrinkHashService.Shrink;
 
-        this.getBlocksViewModel();
-    
-        this.addBlock();
-    }
-
-    getBlocksViewModel = (): void => {
         this.blocks = [];
-        // for (var i = 0; i < blocks.length; i++) {
-
-        //     var b: bc.IBlock = blocks[i];
-
-        //     this.blocks.push(new BlockViewModel(
-        //         i+1,
-        //         b.hash,
-        //         b.time,
-        //         b.n_tx));                
-        // }
+    
+        this.addLatestBlock();
     }
 
     filterBySearch = (item: BlockViewModel): boolean => {
@@ -63,30 +49,39 @@ export class ExplorerController {
         return false;
     }
 
-    addBlock = (): void => {
+    addBlock = (hash: string): void => {
+
+        var self = this;
+
+        this.$http.get('/blockexplorer/rawblock/' + hash)
+            .success(function (data, status, headers, config) {
+
+                self.blocks.push(new BlockViewModel(
+                    self.blocks.length + 1,
+                    data.hash,
+                    data.time,
+                    data.n_tx));
+
+            })
+            .error(function (data, status, headers, config) {
+
+            });
+
+    }
+
+    addLatestBlock = (): void => {
 
         var self = this;
 
         this.$http.get('/blockexplorer/q/latesthash')
             .success(function (data, status, headers, config) {
 
-                self.$http.get('/blockexplorer/rawblock/' + data)
-                    .success(function (data, status, headers, config) {
-
-                        self.blocks.push(new BlockViewModel(
-                            self.blocks.length + 1,
-                            data.hash,
-                            data.time,
-                            data.n_tx));
-
-                    })
-                    .error(function (data, status, headers, config) {
-
-                    });
+                self.addBlock(data);
 
             })
             .error(function (data, status, headers, config) {
             });
 
     }
+
 }
