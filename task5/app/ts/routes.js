@@ -21,4 +21,3 @@
     bitCoinApp.service('loadBlockService', ['$resource', loader.LoadBlock]);
     bitCoinApp.service('shrinkHashService', [shrinker.ShrinkHash]);
 });
-//# sourceMappingURL=routes.js.map

@@ -72,4 +72,3 @@
     })();
     exports.Controller = Controller;
 });
-//# sourceMappingURL=block.js.map

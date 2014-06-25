@@ -19,6 +19,9 @@ export class ExplorerController {
     constructor($scope, loadBlockService, shrinkHashService) {
         $scope.vm = this;        
 
+        debugger;
+        loadBlockService.Get();
+
         this.shrinkHash = shrinkHashService.Shrink;
 
         this.getBlocksViewModel();

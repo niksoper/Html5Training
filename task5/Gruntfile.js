@@ -47,12 +47,27 @@ module.exports = function (grunt) {
                 }
             },
             app: {
+                proxies: [
+                    {
+                        context: '/blockexplorer',
+                        host: 'blockexplorer.com',
+                        changeOrigin: true,
+                        rewrite: {
+                            '^/blockexplorer': ''
+                        }
+                    }
+                ],
                 options: {
                     port: 8080,
                     base: 'app',
+                    logger: 'dev',
                     hostname: 'localhost',
+                    keepalive: true,
                     middleware: function(connect) {
-                        return [connect.logger('dev'), mountFolder(connect, 'app')];
+
+                        var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
+
+                        return [proxy, connect.logger('dev'), mountFolder(connect, 'app')];
                     }
                 }
             }
@@ -104,7 +119,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('connect-livereload');
+    grunt.loadNpmTasks('grunt-connect-proxy');
 
-    grunt.registerTask('default', ['ts:dev', 'sass', 'connect:app', 'connect:test', 'open', 'watch']);
+    grunt.registerTask('default', ['ts:dev', 'sass', 'configureProxies:app', 'connect:app', 'connect:test', 'watch']);
+    grunt.registerTask('server', ['configureProxies:app', 'connect:app']);
 };

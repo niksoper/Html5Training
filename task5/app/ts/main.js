@@ -35,4 +35,3 @@ var BitCoinClient;
         });
     });
 })(BitCoinClient || (BitCoinClient = {}));
-//# sourceMappingURL=main.js.map

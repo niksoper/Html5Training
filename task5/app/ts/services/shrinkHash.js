@@ -30,4 +30,3 @@
     })();
     exports.ShrinkHash = ShrinkHash;
 });
-//# sourceMappingURL=shrinkHash.js.map

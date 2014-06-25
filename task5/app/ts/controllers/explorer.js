@@ -44,6 +44,9 @@
             };
             $scope.vm = this;
 
+            debugger;
+            loadBlockService.Get();
+
             this.shrinkHash = shrinkHashService.Shrink;
 
             this.getBlocksViewModel();
@@ -52,4 +55,3 @@
     })();
     exports.ExplorerController = ExplorerController;
 });
-//# sourceMappingURL=explorer.js.map
