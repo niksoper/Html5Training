@@ -1,8 +1,7 @@
-﻿define(["require", "exports", 'bitCoinApp', 'controllers/explorer', 'controllers/block', 'services/shrinkHash'], function(require, exports, __bitCoinApp__, __explorer__, __block__, __shrinker__) {
+﻿define(["require", "exports", 'bitCoinApp', 'controllers/explorer', 'controllers/block'], function(require, exports, __bitCoinApp__, __explorer__, __block__) {
     var bitCoinApp = __bitCoinApp__;
     var explorer = __explorer__;
     var block = __block__;
-    var shrinker = __shrinker__;
 
     bitCoinApp.config([
         '$routeProvider',
@@ -16,6 +15,4 @@
             }).otherwise({ redirectTo: '/' });
         }
     ]);
-
-    bitCoinApp.service('shrinkHashService', [shrinker.ShrinkHash]);
 });

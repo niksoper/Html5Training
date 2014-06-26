@@ -60,6 +60,11 @@
         "angular"
       ]
     },
+    "angular-mocks": {
+      "deps": [
+        "angular"
+      ]
+    },
     "bootstrap": [
       "jquery"
     ]
@@ -76,39 +81,9 @@
     function launchTest() {
     require([
       
-        
-        'bitCoinApp' ,
-      
-        
-        'bitcoin' ,
-      
-        
-        'blocks' ,
-      
-        
-        'controllers/block' ,
-      
-        
-        'controllers/explorer' ,
-      
-        
-        'main' ,
-      
-        
-        'routes' ,
-      
-        
-        'services/hello' ,
-      
-        
-        'services/loadBlock' ,
-      
-        
-        'services/shrinkHash' 
-      
     ],
     function(){
-      require(['test/unit/helloSpec.js','.grunt/grunt-contrib-jasmine/reporter.js'], function(){
+      require(['test/unit/shrinkHashSpec.js','.grunt/grunt-contrib-jasmine/reporter.js'], function(){
         startTests();
       });
     }

@@ -22,9 +22,9 @@ require.config({
       'angular-resource': {
           deps: ['angular']
       },
-      // 'angular-mocks': {
-      //     deps: ['angular']
-      // },
+      'angular-mocks': {
+          deps: ['angular']
+      },
       'bootstrap': ['jquery']
   }
 });

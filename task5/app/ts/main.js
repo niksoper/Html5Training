@@ -28,7 +28,8 @@ var BitCoinClient;
         'angular',
         'jquery',
         'bootstrap',
-        'routes'
+        'routes',
+        'services'
     ], function (angular, $) {
         $(function () {
             angular.bootstrap(document, ['bitCoinApp']);

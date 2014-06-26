@@ -1,12 +1,10 @@
-﻿import bitCoinApp = require('bitCoinApp');
-
-export class ShrinkHash {
-
-    constructor() {
-        console.log('Called ShrinkHash constructor.');
-    }
+﻿export class ShrinkHash {
 
     public Shrink = (hash: string): string => {
+
+        if (!hash) {
+            return null;
+        }
 
         var zeroes = 0;
         var lastZero = -1;

@@ -1,7 +1,6 @@
 ﻿import bitCoinApp = require('bitCoinApp');
 import explorer = require('controllers/explorer');
 import block = require('controllers/block');
-import shrinker = require('services/shrinkHash');
 
 bitCoinApp.config(['$routeProvider',
     function ($routeProvider: ng.route.IRouteProvider) {
@@ -19,5 +18,3 @@ bitCoinApp.config(['$routeProvider',
 
     }
 ]);
-
-bitCoinApp.service('shrinkHashService', [shrinker.ShrinkHash]);
