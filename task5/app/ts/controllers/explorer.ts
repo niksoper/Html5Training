@@ -23,8 +23,6 @@ export class ExplorerController {
     
     constructor($scope, $http: ng.IHttpService, shrinkHashService) {
         
-        this.$http = $http;
-
         $scope.vm = this;        
 
         this.newBlocks = 10;
@@ -33,16 +31,20 @@ export class ExplorerController {
 
         this.blocks = [];
     
+        // I've not been able to write tests for these lines
+        this.$http = $http;
         this.addLatestBlock();
+
     }
 
     filterBySearch = (item: BlockViewModel): boolean => {
 
-        if (!this.searchText) {
+        if (!this.searchText || /^\W*$/.test(this.searchText)) {
             return true;
         }
 
-        if (item.hash.indexOf(this.searchText) != -1) {
+        var matchRegex = new RegExp(this.searchText, 'i');
+        if (matchRegex.test(item.hash)) {
             return true;
         }
 

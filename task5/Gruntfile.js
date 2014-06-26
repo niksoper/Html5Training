@@ -75,8 +75,7 @@ module.exports = function (grunt) {
         jasmine: {
             unit: {
                 options: {
-                    specs: 'test/unit/*Spec.js',
-                    //host: 'http://localhost:9000/',
+                    specs: 'test/unit/**/*Spec.js',
                     template: require('grunt-template-jasmine-requirejs'),
                     templateOptions: {
                         requireConfigFile: 'test/test-main.js'

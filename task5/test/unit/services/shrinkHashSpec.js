@@ -1,4 +1,4 @@
-define(['angular-mocks', 'bitCoinApp', 'services'], function(angularMocks, app, sut) {
+define(['angular-mocks', 'bitCoinApp', 'services'], function() {
 
 	describe('Shrink', function() {
 

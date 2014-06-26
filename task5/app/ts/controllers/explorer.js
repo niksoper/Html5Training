@@ -17,11 +17,12 @@
         function ExplorerController($scope, $http, shrinkHashService) {
             var _this = this;
             this.filterBySearch = function (item) {
-                if (!_this.searchText) {
+                if (!_this.searchText || /^\W*$/.test(_this.searchText)) {
                     return true;
                 }
 
-                if (item.hash.indexOf(_this.searchText) != -1) {
+                var matchRegex = new RegExp(_this.searchText, 'i');
+                if (matchRegex.test(item.hash)) {
                     return true;
                 }
 
@@ -57,8 +58,6 @@
                     self.errorMsg = 'Latest hash could not be found.';
                 });
             };
-            this.$http = $http;
-
             $scope.vm = this;
 
             this.newBlocks = 10;
@@ -67,6 +66,7 @@
 
             this.blocks = [];
 
+            this.$http = $http;
             this.addLatestBlock();
         }
         return ExplorerController;
