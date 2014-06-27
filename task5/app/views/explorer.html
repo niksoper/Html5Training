@@ -8,7 +8,7 @@
     <input type="search" id="blockSearch" ng-model="vm.searchText" placeholder="#index or hash" />
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped" ng-init="vm.addLatestBlock()">
     <thead>
         <tr>
             <th>#</th>

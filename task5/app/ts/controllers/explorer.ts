@@ -23,6 +23,8 @@ export class ExplorerController {
     
     constructor($scope, $http: ng.IHttpService, shrinkHashService) {
         
+        this.$http = $http;
+
         $scope.vm = this;        
 
         this.newBlocks = 10;
@@ -30,11 +32,6 @@ export class ExplorerController {
         this.shrinkHash = shrinkHashService.Shrink;
 
         this.blocks = [];
-    
-        // I've not been able to write tests for these lines
-        this.$http = $http;
-        this.addLatestBlock();
-
     }
 
     filterBySearch = (item: BlockViewModel): boolean => {
@@ -60,28 +57,29 @@ export class ExplorerController {
 
     addBlock = (hash: string, remaining: number): void => {
 
-        if (remaining > 0) {
-
-            var self = this;
-
-            this.$http.get('/blockexplorer/rawblock/' + hash)
-                .success(function (data, status, headers, config) {
-
-                    self.blocks.push(new BlockViewModel(
-                        self.blocks.length + 1,
-                        data.hash,
-                        data.time,
-                        data.n_tx));
-
-                    self.addBlock(data.prev_block, remaining - 1);
-
-                    self.nextBlockHash = data.prev_block;
-
-                })
-                .error(function (data, status, headers, config) {
-
-                });
+        if (!hash || remaining < 1) {
+            return;
         }
+
+        var self = this;
+
+        this.$http.get('/blockexplorer/rawblock/' + hash)
+            .success(function (data, status, headers, config) {
+
+                self.blocks.push(new BlockViewModel(
+                    self.blocks.length + 1,
+                    data.hash,
+                    data.time,
+                    data.n_tx));
+
+                self.addBlock(data.prev_block, remaining - 1);
+
+                self.nextBlockHash = data.prev_block;
+
+            })
+            .error(function (data, status, headers, config) {
+
+            });
     }
 
     addLatestBlock = (): void => {

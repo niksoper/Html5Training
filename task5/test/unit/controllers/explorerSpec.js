@@ -2,15 +2,17 @@ define(['controllers/explorer', 'angular-mocks', 'bitCoinApp'], function(control
 
 	describe('ExplorerController', function () {
 
-		var scope, ctrl, $httpBackend, shrinkHashService;
+		var scope, ctrl, $httpBackend, shrinkHashService, $http;
 
 		beforeEach(module('bitCoinApp'));
 
-		beforeEach(inject(function(_$httpBackend_, $rootScope, $controller, _shrinkHashService_) {
+		beforeEach(inject(function(_$httpBackend_, $rootScope, $controller, _$http_, _shrinkHashService_) {
 
 			$httpBackend = _$httpBackend_;
+
 			scope = $rootScope.$new();
 			ctrl = $controller(controller.ExplorerController, {$scope: scope});
+			$http = _$http_;
 			shrinkHashService = _shrinkHashService_;
 
 		}));
@@ -38,6 +40,12 @@ define(['controllers/explorer', 'angular-mocks', 'bitCoinApp'], function(control
 			it('Sets blocks to empty array', function () {
 
 				expect(ctrl.blocks).toEqual([]);
+
+			});
+
+			it('Sets injected $http', function () {
+
+				expect(ctrl.$http).toBe($http);
 
 			});
 
@@ -147,6 +155,101 @@ define(['controllers/explorer', 'angular-mocks', 'bitCoinApp'], function(control
 
 		});
 
+		describe('addBlock', function() {
+
+			it('Doesn\'t make http request if hash is undefined', function() {
+
+				spyOn(ctrl.$http, 'get');
+
+				ctrl.addBlock(undefined, 1);
+
+				expect(ctrl.$http.get).not.toHaveBeenCalled();
+
+			});
+
+			it('Doesn\'t make http request if remaining is 0', function() {
+
+				spyOn(ctrl.$http, 'get');
+
+				ctrl.addBlock('hash', 0);
+
+				expect(ctrl.$http.get).not.toHaveBeenCalled();
+
+			});
+
+			it('Doesn\'t make http request if remaining is -1', function() {
+
+				spyOn(ctrl.$http, 'get');
+
+				ctrl.addBlock('hash', -1);
+
+				expect(ctrl.$http.get).not.toHaveBeenCalled();
+
+			});
+
+			it('Adds to blocks if http request is successful', function() {
+
+				// set up the data to be returned from the http request
+				$httpBackend.when('GET', '/blockexplorer/rawblock/hash')
+					.respond({
+						hash: 'fakehash',
+						time: 12345,
+						n_tx: 6789
+					});
+
+				// before calling addBlock there should be no blocks
+				expect(ctrl.blocks.length).toBe(0);
+
+				// call the function that is being tested
+				ctrl.addBlock('hash', 1);
+
+				// until the success callback is called, there should still be no blocks
+				expect(ctrl.blocks.length).toBe(0);
+
+				// after success callback (triggered by flush()) there should be a block				
+				$httpBackend.flush();
+				expect(ctrl.blocks.length).toBe(1);
+
+				// assert the block properties are as expected
+				var block = ctrl.blocks[0];
+				expect(block.index).toBe(1);
+				expect(block.hash).toBe('fakehash');
+				expect(block.time).toBe(12345);
+				expect(block.n_tx).toBe(6789);
+			});
+
+			it('Sets nextBlockHash if http request is successful', function() {
+
+				// set up the data to be returned from the http request
+				$httpBackend.when('GET', '/blockexplorer/rawblock/hash')
+					.respond({prev_block: 'oldblock'});
+
+				// call the function that is being tested
+				ctrl.addBlock('hash', 1);
+			
+				$httpBackend.flush();
+				expect(ctrl.nextBlockHash).toBe('oldblock');
+			});
+
+			it('Calls addBlock recursively with number decremented if http request is successful', function() {
+
+				$httpBackend.when('GET', '/blockexplorer/rawblock/hash')
+					.respond({prev_block: 'somehash'});
+
+				spyOn(ctrl, 'addBlock').and.callThrough();
+
+				// set up the next http request for the following recursive call
+				$httpBackend.when('GET', '/blockexplorer/rawblock/somehash')
+					.respond({prev_block: 'anotherhash'});
+
+				ctrl.addBlock('hash', 2);
+			
+				$httpBackend.flush();
+				expect(ctrl.addBlock).toHaveBeenCalledWith('somehash', 1);
+				
+			});
+
+		});
 	});
 
 });

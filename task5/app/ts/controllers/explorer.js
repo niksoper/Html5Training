@@ -36,18 +36,20 @@
                 return false;
             };
             this.addBlock = function (hash, remaining) {
-                if (remaining > 0) {
-                    var self = _this;
-
-                    _this.$http.get('/blockexplorer/rawblock/' + hash).success(function (data, status, headers, config) {
-                        self.blocks.push(new BlockViewModel(self.blocks.length + 1, data.hash, data.time, data.n_tx));
-
-                        self.addBlock(data.prev_block, remaining - 1);
-
-                        self.nextBlockHash = data.prev_block;
-                    }).error(function (data, status, headers, config) {
-                    });
+                if (!hash || remaining < 1) {
+                    return;
                 }
+
+                var self = _this;
+
+                _this.$http.get('/blockexplorer/rawblock/' + hash).success(function (data, status, headers, config) {
+                    self.blocks.push(new BlockViewModel(self.blocks.length + 1, data.hash, data.time, data.n_tx));
+
+                    self.addBlock(data.prev_block, remaining - 1);
+
+                    self.nextBlockHash = data.prev_block;
+                }).error(function (data, status, headers, config) {
+                });
             };
             this.addLatestBlock = function () {
                 var self = _this;
@@ -58,6 +60,8 @@
                     self.errorMsg = 'Latest hash could not be found.';
                 });
             };
+            this.$http = $http;
+
             $scope.vm = this;
 
             this.newBlocks = 10;
@@ -65,9 +69,6 @@
             this.shrinkHash = shrinkHashService.Shrink;
 
             this.blocks = [];
-
-            this.$http = $http;
-            this.addLatestBlock();
         }
         return ExplorerController;
     })();
