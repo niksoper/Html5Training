@@ -20,6 +20,7 @@ export class ExplorerController {
     newBlocks: number;
     nextBlockHash: string;
     errorMsg: string;
+    hashError: string;
     
     constructor($scope, $http: ng.IHttpService, shrinkHashService) {
         
@@ -32,6 +33,8 @@ export class ExplorerController {
         this.shrinkHash = shrinkHashService.Shrink;
 
         this.blocks = [];
+
+        this.hashError = 'Latest hash could not be found.'
     }
 
     filterBySearch = (item: BlockViewModel): boolean => {
@@ -64,7 +67,9 @@ export class ExplorerController {
         var self = this;
 
         this.$http.get('/blockexplorer/rawblock/' + hash)
-            .success(function (data, status, headers, config) {
+            .then(function (result) {
+
+                var data = result.data;
 
                 self.blocks.push(new BlockViewModel(
                     self.blocks.length + 1,
@@ -76,9 +81,24 @@ export class ExplorerController {
 
                 self.nextBlockHash = data.prev_block;
 
-            })
-            .error(function (data, status, headers, config) {
+                return new BlockViewModel(
+                    self.blocks.length + 1,
+                    data.hash,
+                    data.time,
+                    data.n_tx);
 
+            },
+            function (result) {
+
+                /* Failure is most likely caused by the latest block being unavailable
+                   so fall back to the next highest hash in the block chain.
+                */
+
+                self.getNextHighestHash(function (hash) {
+                    
+                    self.addBlock(hash, remaining);
+
+                });
             });
     }
 
@@ -87,16 +107,50 @@ export class ExplorerController {
         var self = this;
 
         this.$http.get('/blockexplorer/q/latesthash')
-            .success(function (data, status, headers, config) {
+            .then(function (result) {
+
+                var data = result.data;
 
                 self.addBlock(data, self.newBlocks);
 
-            })
-            .error(function (data, status, headers, config) {
+            },
+            function (result) {
 
-                self.errorMsg = 'Latest hash could not be found.';
+                var data = result.data;
+
+                self.setHashError();
 
             });
+
+    }
+
+    getNextHighestHash = (reportHash: Function):void => {
+
+        var self = this;
+
+        this.$http.get('/blockexplorer/q/getblockcount')
+            .then(function (result) {
+
+                var targetHeight = parseInt(result.data) - 1;
+
+                return self.$http.get('/blockexplorer/q/getblockhash/' + targetHeight);
+
+            })
+            .then(function (result) {
+
+                reportHash(result.data);
+
+            }, 
+            function (error) {
+
+                self.setHashError();
+
+            });
+    }
+
+    setHashError = (): void => {
+
+        this.errorMsg = this.hashError;
 
     }
 
