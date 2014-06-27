@@ -250,6 +250,26 @@ define(['controllers/explorer', 'angular-mocks', 'bitCoinApp'], function(control
 			});
 
 		});
+
+		describe('addLatestBlock', function() {
+
+			it('Calls addBlock with latest hash from http request', function() {
+
+				$httpBackend.when('GET', '/blockexplorer/q/latesthash')
+					.respond('thelatesthash');
+
+				spyOn(ctrl, 'addBlock');
+
+				ctrl.newBlocks = 345;
+
+				ctrl.addLatestBlock();
+				$httpBackend.flush();
+
+				expect(ctrl.addBlock).toHaveBeenCalledWith('thelatesthash', 345);
+
+			});
+
+		});
 	});
 
 });
