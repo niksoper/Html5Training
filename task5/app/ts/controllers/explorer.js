@@ -50,10 +50,8 @@
                     self.addBlock(data.prev_block, remaining - 1);
 
                     self.nextBlockHash = data.prev_block;
-
-                    return new BlockViewModel(self.blocks.length + 1, data.hash, data.time, data.n_tx);
                 }, function (result) {
-                    self.getNextHighestHash(function (hash) {
+                    self.getNextHighestHash().then(function (hash) {
                         self.addBlock(hash, remaining);
                     });
                 });
@@ -71,17 +69,15 @@
                     self.setHashError();
                 });
             };
-            this.getNextHighestHash = function (reportHash) {
+            this.getNextHighestHash = function () {
                 var self = _this;
 
-                _this.$http.get('/blockexplorer/q/getblockcount').then(function (result) {
+                return _this.$http.get('/blockexplorer/q/getblockcount').then(function (result) {
                     var targetHeight = parseInt(result.data) - 1;
 
                     return self.$http.get('/blockexplorer/q/getblockhash/' + targetHeight);
                 }).then(function (result) {
-                    reportHash(result.data);
-                }, function (error) {
-                    self.setHashError();
+                    return result.data;
                 });
             };
             this.setHashError = function () {

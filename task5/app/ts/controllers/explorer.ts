@@ -81,24 +81,16 @@ export class ExplorerController {
 
                 self.nextBlockHash = data.prev_block;
 
-                return new BlockViewModel(
-                    self.blocks.length + 1,
-                    data.hash,
-                    data.time,
-                    data.n_tx);
-
             },
-            function (result) {
+            (result) => {
 
                 /* Failure is most likely caused by the latest block being unavailable
                    so fall back to the next highest hash in the block chain.
                 */
 
-                self.getNextHighestHash(function (hash) {
-                    
-                    self.addBlock(hash, remaining);
-
-                });
+                self.getNextHighestHash().then((hash: string):void => {
+                        self.addBlock(hash, remaining);
+                    });
             });
     }
 
@@ -107,14 +99,14 @@ export class ExplorerController {
         var self = this;
 
         this.$http.get('/blockexplorer/q/latesthash')
-            .then(function (result) {
+            .then((result) => {
 
                 var data = result.data;
 
                 self.addBlock(data, self.newBlocks);
 
             },
-            function (result) {
+            (result) => {
 
                 var data = result.data;
 
@@ -124,11 +116,11 @@ export class ExplorerController {
 
     }
 
-    getNextHighestHash = (reportHash: Function):void => {
+    getNextHighestHash = () => {
 
         var self = this;
 
-        this.$http.get('/blockexplorer/q/getblockcount')
+        return this.$http.get('/blockexplorer/q/getblockcount')
             .then(function (result) {
 
                 var targetHeight = parseInt(result.data) - 1;
@@ -136,14 +128,9 @@ export class ExplorerController {
                 return self.$http.get('/blockexplorer/q/getblockhash/' + targetHeight);
 
             })
-            .then(function (result) {
+            .then((result: any): string => {
 
-                reportHash(result.data);
-
-            }, 
-            function (error) {
-
-                self.setHashError();
+                return result.data;
 
             });
     }
