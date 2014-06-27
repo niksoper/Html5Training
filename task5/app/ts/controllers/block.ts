@@ -63,12 +63,12 @@ export class Controller {
         var self = this;
 
         this.$http.get('/blockexplorer/rawblock/' + hash)
-            .success(function(data, status, headers, config) {
+            .then(function (result) {
 
-                setBlock(data);
+                setBlock(result.data);
 
-            })
-            .error(function(data, status, headers, config) {
+            },
+            function (error) {
 
             });
 

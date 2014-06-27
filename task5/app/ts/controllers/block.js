@@ -38,9 +38,9 @@
             this.getBlock = function (hash, setBlock) {
                 var self = _this;
 
-                _this.$http.get('/blockexplorer/rawblock/' + hash).success(function (data, status, headers, config) {
-                    setBlock(data);
-                }).error(function (data, status, headers, config) {
+                _this.$http.get('/blockexplorer/rawblock/' + hash).then(function (result) {
+                    setBlock(result.data);
+                }, function (error) {
                 });
             };
             this.setActivePage = function (page) {
