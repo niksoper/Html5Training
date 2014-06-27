@@ -269,6 +269,32 @@ define(['controllers/explorer', 'angular-mocks', 'bitCoinApp'], function(control
 
 			});
 
+			it('Sets errorMsg if http request not successful', function() {
+
+				$httpBackend.when('GET', '/blockexplorer/q/latesthash')
+					.respond(500, {});
+
+				ctrl.addLatestBlock();
+				$httpBackend.flush();
+
+				expect(ctrl.errorMsg).toBe('Latest hash could not be found.');
+
+			});
+
+			it('Doesn\'t call addBlock if http request not successful', function() {
+
+				$httpBackend.when('GET', '/blockexplorer/q/latesthash')
+					.respond(500, {});
+
+				spyOn(ctrl, 'addBlock');
+
+				ctrl.addLatestBlock();
+				$httpBackend.flush();
+
+				expect(ctrl.addBlock).not.toHaveBeenCalled();
+
+			});
+
 		});
 	});
 
