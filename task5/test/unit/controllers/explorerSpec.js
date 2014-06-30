@@ -279,6 +279,43 @@ define(['controllers/explorer', 'angular-mocks', 'bitCoinApp'], function(control
 
 			});
 
+			it('Calls setHashError if http request fails and fallback request to getblockcount fails', function () {
+
+			    // set up the http request to fail with a 404 error
+			    $httpBackend.expectGET('/blockexplorer/rawblock/hash').respond(404, {});
+
+			    // the controller should fall back onto the block below the lastest hash but set that to fail too
+			    $httpBackend.expectGET('/blockexplorer/q/getblockcount').respond(500, {});
+
+			    spyOn(ctrl, 'setHashError').and.callThrough();
+
+			    ctrl.addBlock('hash', 1);
+			    $httpBackend.flush();
+
+			    expect(ctrl.setHashError).toHaveBeenCalled();
+
+			});
+
+			it('Calls setHashError if http request fails and fallback request to hash for next block down fails', function () {
+
+			    // set up the http request to fail with a 404 error
+			    $httpBackend.expectGET('/blockexplorer/rawblock/hash').respond(404, {});
+
+			    // set the block height to 123
+			    $httpBackend.expectGET('/blockexplorer/q/getblockcount').respond('123');
+
+			    // set up the request for the hash for block 122 to fail
+			    $httpBackend.expectGET('/blockexplorer/q/getblockhash/122').respond(500, {});
+
+			    spyOn(ctrl, 'setHashError').and.callThrough();
+
+			    ctrl.addBlock('hash', 1);
+			    $httpBackend.flush();
+
+			    expect(ctrl.setHashError).toHaveBeenCalled();
+
+			});
+
 		});
 
 		describe('addLatestBlock', function() {
@@ -327,65 +364,6 @@ define(['controllers/explorer', 'angular-mocks', 'bitCoinApp'], function(control
 
 			});
 
-		});
-
-		describe('getNextHighestHash', function() {
-
-			it('Calls back with the hash of the block below the latest hash', function() {
-				
-				// set the block height to 123
-				$httpBackend.expectGET('/blockexplorer/q/getblockcount')
-					.respond('123');
-
-				// we're interested in the previous block so set up the hash for block 122
-				$httpBackend.expectGET('/blockexplorer/q/getblockhash/122')
-					.respond('targethash');
-
-				// set up a spy on an object that contains a callback function
-				var callBackWrapper = {callback: function (hash) {}};
-				spyOn(callBackWrapper, 'callback');
-
-				ctrl.getNextHighestHash(callBackWrapper.callback);
-				$httpBackend.flush();
-
-				expect(callBackWrapper.callback).toHaveBeenCalledWith('targethash');
-
-			});
-
-			it('Calls setHashError if http request to getblockcount fails', function() {
-				
-				// return an http 500 status code
-				$httpBackend.expectGET('/blockexplorer/q/getblockcount')
-					.respond(500);
-
-				spyOn(ctrl, 'setHashError');
-
-				ctrl.getNextHighestHash();
-				$httpBackend.flush();
-
-				expect(ctrl.setHashError).toHaveBeenCalled();
-
-			});
-
-			it('Calls setHashError if http request to getblockhash fails', function() {
-				
-				// set the block height to 123
-				$httpBackend.expectGET('/blockexplorer/q/getblockcount')
-					.respond('123');
-
-				// return an http 500 status code
-				$httpBackend.expectGET('/blockexplorer/q/getblockhash/122')
-					.respond(500);
-
-				spyOn(ctrl, 'setHashError');
-
-				ctrl.getNextHighestHash();
-				$httpBackend.flush();
-
-				expect(ctrl.setHashError).toHaveBeenCalled();
-
-			});
-			
 		});
 
 		describe('setHashError', function() {

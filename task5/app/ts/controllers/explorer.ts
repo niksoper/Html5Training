@@ -70,9 +70,9 @@ export class ExplorerController {
         var self = this;
 
         this.$http.get('/blockexplorer/rawblock/' + hash)
-            .then(function (result: ng.IHttpPromiseCallbackArg<bc.IBlock>) {
+            .then((response: ng.IHttpPromiseCallbackArg<bc.IBlock>): void => {
 
-                var data: bc.IBlock = result.data;
+                var data: bc.IBlock = response.data;
 
                 self.blocks.push(new BlockViewModel(
                     self.blocks.length + 1,
@@ -85,7 +85,7 @@ export class ExplorerController {
                 self.nextBlockHash = data.prev_block;
 
             },
-            (result) => {
+            (response: any): any => {
 
                 /* Failure is most likely caused by the latest block being unavailable
                    so fall back to the next highest hash in the block chain.
@@ -109,9 +109,7 @@ export class ExplorerController {
                 self.addBlock(data, self.newBlocks);
 
             },
-            (result) => {
-
-                var data = result.data;
+            (result: ng.IHttpPromiseCallbackArg<string>) => {
 
                 self.setHashError();
 
@@ -131,10 +129,13 @@ export class ExplorerController {
                 return self.$http.get('/blockexplorer/q/getblockhash/' + targetHeight);
 
             })
-            .then((result: any): string => {
+            .then((result: ng.IHttpPromiseCallbackArg<string>): string => {
 
                 return result.data;
 
+            },
+            (reason: any): any => {
+                self.setHashError();
             });
     }
 

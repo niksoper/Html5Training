@@ -39,15 +39,15 @@
 
                 var self = _this;
 
-                _this.$http.get('/blockexplorer/rawblock/' + hash).then(function (result) {
-                    var data = result.data;
+                _this.$http.get('/blockexplorer/rawblock/' + hash).then(function (response) {
+                    var data = response.data;
 
                     self.blocks.push(new BlockViewModel(self.blocks.length + 1, data.hash, data.time, data.n_tx));
 
                     self.addBlock(data.prev_block, remaining - 1);
 
                     self.nextBlockHash = data.prev_block;
-                }, function (result) {
+                }, function (response) {
                     /* Failure is most likely caused by the latest block being unavailable
                     so fall back to the next highest hash in the block chain.
                     */
@@ -64,8 +64,6 @@
 
                     self.addBlock(data, self.newBlocks);
                 }, function (result) {
-                    var data = result.data;
-
                     self.setHashError();
                 });
             };
@@ -78,6 +76,8 @@
                     return self.$http.get('/blockexplorer/q/getblockhash/' + targetHeight);
                 }).then(function (result) {
                     return result.data;
+                }, function (reason) {
+                    self.setHashError();
                 });
             };
             this.setHashError = function () {
