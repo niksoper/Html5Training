@@ -1,6 +1,7 @@
-﻿import angular = require('angular');
-import angularRoute = require("angular-route");
-import angularResource = require("angular-resource");
+﻿/// <amd-dependency path="angular-route" />
+/// <amd-dependency path="angular-resource" />
+
+import angular = require('angular');
 
 var bitCoinApp = angular.module('bitCoinApp', ['ngRoute', 'ngResource']);
 

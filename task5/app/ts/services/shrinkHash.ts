@@ -13,7 +13,7 @@
         // this tests whether the hash has four or fewer leading zeroes
         if (/^(0{1,4}[^0])|(^[^0])/.test(hash)) {
         
-            var lastZero = this.CountLeadningZeroes(hash);
+            var lastZero: number = this.CountLeadingZeroes(hash);
 
             if (lastZero !== -1) {
 
@@ -28,7 +28,7 @@
 
             // failing the regex means that the hash starts with 5 or more leading zeroes
 
-            var lastZero = this.CountLeadningZeroes(hash);
+            var lastZero = this.CountLeadingZeroes(hash);
 
             var shrunk = '0x' + (lastZero + 1);
 
@@ -48,7 +48,7 @@
         }
     }
 
-    CountLeadningZeroes = (hash: string): number => {
+    private CountLeadingZeroes = (hash: string): number => {
 
         var lastZero = -1;
         for (var i = 0; i < hash.length; i++) {

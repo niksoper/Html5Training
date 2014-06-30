@@ -99,7 +99,7 @@ module.exports = function (grunt) {
             },
             ts: {
                 files: 'app/ts/**/*.ts',
-                tasks: ['ts:dev']
+                //tasks: ['ts:dev']
             },
             tests: {
                 files: ['app/ts/**/*.js', '<%= jasmine.unit.options.specs %>'],
@@ -121,7 +121,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-connect-proxy');
 
-    grunt.registerTask('default', ['ts:dev', 'sass', 'jasmine', 'configureProxies:app', 'connect:app', 'connect:test', 'open', 'watch']);
+    grunt.registerTask('default', ['sass', 'jasmine', 'configureProxies:app', 'connect:app', 'connect:test', 'open', 'watch']);
     grunt.registerTask('test', ['connect:test', 'jasmine', 'open:tests', 'watch']);
     grunt.registerTask('server', ['configureProxies:app', 'connect:app']);
 };

@@ -1,8 +1,4 @@
-﻿define(["require", "exports", 'bitCoinApp', 'controllers/explorer', 'controllers/block'], function(require, exports, __bitCoinApp__, __explorer__, __block__) {
-    var bitCoinApp = __bitCoinApp__;
-    var explorer = __explorer__;
-    var block = __block__;
-
+﻿define(["require", "exports", 'bitCoinApp', 'controllers/explorer', 'controllers/block'], function(require, exports, bitCoinApp, explorer, block) {
     bitCoinApp.config([
         '$routeProvider',
         function ($routeProvider) {
@@ -16,3 +12,4 @@
         }
     ]);
 });
+//# sourceMappingURL=routes.js.map

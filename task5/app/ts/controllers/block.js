@@ -1,7 +1,4 @@
-﻿define(["require", "exports", '../blocks'], function(require, exports, __blocks__) {
-    var blocks = __blocks__;
-    
-
+﻿define(["require", "exports"], function(require, exports) {
     var TxViewModel = (function () {
         function TxViewModel(hash, index) {
             this.hash = hash;
@@ -40,7 +37,6 @@
 
                 _this.$http.get('/blockexplorer/rawblock/' + hash).then(function (result) {
                     setBlock(result.data);
-                }, function (error) {
                 });
             };
             this.setActivePage = function (page) {
@@ -75,3 +71,4 @@
     })();
     exports.Controller = Controller;
 });
+//# sourceMappingURL=block.js.map

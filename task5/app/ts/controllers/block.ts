@@ -1,5 +1,5 @@
-﻿import blocks = require('../blocks');
-import bc = require('../bitcoin');
+﻿import bc = require('../bitcoin');
+import shrink = require('../services/shrinkHash');
 
 export class TxViewModel {
     constructor(public hash: string, public index: number) {
@@ -13,10 +13,14 @@ export class Controller {
     activePage: number;
     transactions: TxViewModel[];
     pageSize: number;
-    shrinkHash: Function;
+    shrinkHash: (hash: string) => string;
     $http: ng.IHttpService;
 
-    constructor($scope, $routeParams, $http: ng.IHttpService, shrinkHashService) {
+    constructor(
+        $scope: IControllerScope<Controller>,
+        $routeParams: IHashRouteParams,
+        $http: ng.IHttpService,
+        shrinkHashService: shrink.ShrinkHash) {
 
         $scope.vm = this;
 
@@ -43,9 +47,9 @@ export class Controller {
     }
 
     private setPages = (): void => {
-        var fractionalPages = this.block.n_tx / this.pageSize;
-        var remainder = this.block.n_tx % this.pageSize;
-        var totalPages = Math.floor(fractionalPages) + (remainder !== 0 ? 1 : 0);
+        var fractionalPages: number = this.block.n_tx / this.pageSize;
+        var remainder: number = this.block.n_tx % this.pageSize;
+        var totalPages:number = Math.floor(fractionalPages) + (remainder !== 0 ? 1 : 0);
 
         this.pages = [];
         for (var i = 1; i <= totalPages; i++) {
@@ -58,25 +62,22 @@ export class Controller {
         }
     }
 
-    private getBlock = (hash: string, setBlock: Function): void => {
+    private getBlock = (
+        hash: string,
+        setBlock: (rawBlock: bc.IBlock) => void): void => {
 
         var self = this;
 
         this.$http.get('/blockexplorer/rawblock/' + hash)
-            .then(function (result) {
-
+            .then(function (result: ng.IHttpPromiseCallbackArg<bc.IBlock>) {
                 setBlock(result.data);
-
-            },
-            function (error) {
-
             });
 
     }
 
     private getTransactionsForPage(page: number): void {
-        var start = (page - 1) * this.pageSize;
-        var end = Math.min(start + this.pageSize, this.block.tx.length);
+        var start: number = (page - 1) * this.pageSize;
+        var end: number = Math.min(start + this.pageSize, this.block.tx.length);
 
         this.transactions = [];
         for (var i = start; i < end; i++) {

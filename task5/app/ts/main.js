@@ -4,6 +4,7 @@ var BitCoinClient;
 
     require.config({
         paths: {
+            // set paths to requirejs modules so they can be loaded by requirejs
             'angular': '../bower_components/angular/angular',
             'angular-route': '../bower_components/angular-route/angular-route',
             'angular-resource': '../bower_components/angular-resource/angular-resource',
@@ -24,15 +25,13 @@ var BitCoinClient;
         }
     });
 
+    // run a function once the dependencies have been loaded by requirejs
     require([
-        'angular',
-        'jquery',
-        'bootstrap',
-        'routes',
-        'services'
-    ], function (angular, $) {
+        'angular', 'jquery', 'bootstrap',
+        'routes', 'services'], function (angular, $) {
         $(function () {
             angular.bootstrap(document, ['bitCoinApp']);
         });
     });
 })(BitCoinClient || (BitCoinClient = {}));
+//# sourceMappingURL=main.js.map

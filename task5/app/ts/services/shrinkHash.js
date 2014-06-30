@@ -11,8 +11,9 @@
                     return hash;
                 }
 
+                // this tests whether the hash has four or fewer leading zeroes
                 if (/^(0{1,4}[^0])|(^[^0])/.test(hash)) {
-                    var lastZero = _this.CountLeadningZeroes(hash);
+                    var lastZero = _this.CountLeadingZeroes(hash);
 
                     if (lastZero !== -1) {
                         return hash.slice(0, lastZero + 3) + '...' + hash.slice(hash.length - 2);
@@ -20,7 +21,8 @@
                         return hash.slice(0, 2) + '...' + hash.slice(hash.length - 2);
                     }
                 } else {
-                    var lastZero = _this.CountLeadningZeroes(hash);
+                    // failing the regex means that the hash starts with 5 or more leading zeroes
+                    var lastZero = _this.CountLeadingZeroes(hash);
 
                     var shrunk = '0x' + (lastZero + 1);
 
@@ -33,7 +35,7 @@
                     return shrunk + '...' + hash.slice(lastZero + 1, lastZero + 3) + '...' + hash.slice(hash.length - 2);
                 }
             };
-            this.CountLeadningZeroes = function (hash) {
+            this.CountLeadingZeroes = function (hash) {
                 var lastZero = -1;
                 for (var i = 0; i < hash.length; i++) {
                     if (hash.charAt(i) === '0') {
@@ -50,3 +52,4 @@
     })();
     exports.ShrinkHash = ShrinkHash;
 });
+//# sourceMappingURL=shrinkHash.js.map

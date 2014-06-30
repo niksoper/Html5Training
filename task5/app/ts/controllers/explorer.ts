@@ -1,5 +1,5 @@
-﻿import blocks = require('../blocks');
-import bc = require('../bitcoin');
+﻿import bc = require('../bitcoin');
+import shrink = require('../services/shrinkHash');
 
 export class BlockViewModel {
     constructor(
@@ -16,13 +16,16 @@ export class ExplorerController {
 
     searchText: string;
     blocks: BlockViewModel[];
-    shrinkHash: Function;
+    shrinkHash: (hash: string) => string;
     newBlocks: number;
     nextBlockHash: string;
     errorMsg: string;
     hashError: string;
     
-    constructor($scope, $http: ng.IHttpService, shrinkHashService) {
+    constructor(
+        $scope: IControllerScope<ExplorerController>,
+        $http: ng.IHttpService,
+        shrinkHashService: shrink.ShrinkHash) {
         
         this.$http = $http;
 
@@ -67,9 +70,9 @@ export class ExplorerController {
         var self = this;
 
         this.$http.get('/blockexplorer/rawblock/' + hash)
-            .then(function (result) {
+            .then(function (result: ng.IHttpPromiseCallbackArg<bc.IBlock>) {
 
-                var data = result.data;
+                var data: bc.IBlock = result.data;
 
                 self.blocks.push(new BlockViewModel(
                     self.blocks.length + 1,
@@ -99,9 +102,9 @@ export class ExplorerController {
         var self = this;
 
         this.$http.get('/blockexplorer/q/latesthash')
-            .then((result) => {
+            .then((result: ng.IHttpPromiseCallbackArg<string>) => {
 
-                var data = result.data;
+                var data: string = result.data;
 
                 self.addBlock(data, self.newBlocks);
 
@@ -121,9 +124,9 @@ export class ExplorerController {
         var self = this;
 
         return this.$http.get('/blockexplorer/q/getblockcount')
-            .then(function (result) {
+            .then(function (result: ng.IHttpPromiseCallbackArg<string>) {
 
-                var targetHeight = parseInt(result.data) - 1;
+                var targetHeight: number = parseInt(result.data) - 1;
 
                 return self.$http.get('/blockexplorer/q/getblockhash/' + targetHeight);
 

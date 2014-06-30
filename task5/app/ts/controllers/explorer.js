@@ -1,7 +1,4 @@
-﻿define(["require", "exports", '../blocks'], function(require, exports, __blocks__) {
-    var blocks = __blocks__;
-    
-
+﻿define(["require", "exports"], function(require, exports) {
     var BlockViewModel = (function () {
         function BlockViewModel(index, hash, time, n_tx) {
             this.index = index;
@@ -51,6 +48,9 @@
 
                     self.nextBlockHash = data.prev_block;
                 }, function (result) {
+                    /* Failure is most likely caused by the latest block being unavailable
+                    so fall back to the next highest hash in the block chain.
+                    */
                     self.getNextHighestHash().then(function (hash) {
                         self.addBlock(hash, remaining);
                     });
@@ -99,3 +99,4 @@
     })();
     exports.ExplorerController = ExplorerController;
 });
+//# sourceMappingURL=explorer.js.map
