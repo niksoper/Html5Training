@@ -1,2 +1,3 @@
 # transcompiled typescript
 app/ts/**/*.js
+app/ts/**/*.js.map
