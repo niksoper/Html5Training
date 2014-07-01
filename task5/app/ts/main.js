@@ -9,7 +9,8 @@ var BitCoinClient;
             'angular-route': '../bower_components/angular-route/angular-route',
             'angular-resource': '../bower_components/angular-resource/angular-resource',
             'jquery': '../bower_components/jquery/jquery',
-            'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap'
+            'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap',
+            'd3': '../bower_components/d3/d3'
         },
         shim: {
             'angular': {
@@ -21,7 +22,10 @@ var BitCoinClient;
             'angular-resource': {
                 deps: ['angular']
             },
-            'bootstrap': ['jquery']
+            'bootstrap': ['jquery'],
+            'd3': {
+                exports: 'd3'
+            }
         }
     });
 

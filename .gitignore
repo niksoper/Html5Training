@@ -189,3 +189,6 @@ node_modules/
 bower_components
 # sublime
 *.sublime-workspace
+
+# jasmine
+_SpecRunner.html

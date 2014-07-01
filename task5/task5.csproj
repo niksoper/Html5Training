@@ -95,6 +95,8 @@
     <Content Include="app\bower_components\bootstrap\js\tooltip.js" />
     <Content Include="app\bower_components\bootstrap\js\transition.js" />
     <Content Include="app\bower_components\bootstrap\test-infra\requirements.txt" />
+    <Content Include="app\bower_components\d3\d3.js" />
+    <Content Include="app\bower_components\d3\d3.min.js" />
     <Content Include="app\bower_components\html5-boilerplate\.gitattributes" />
     <Content Include="app\bower_components\html5-boilerplate\.gitignore" />
     <Content Include="app\bower_components\html5-boilerplate\404.html" />
@@ -369,7 +371,6 @@
     <Content Include="app\scss\site.scss" />
     <Content Include="bower.json" />
     <Content Include="package.json" />
-    <Content Include="test\npm-debug.log" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app\reference.ts" />
@@ -392,6 +393,8 @@
     <TypeScriptCompile Include="app\ts\typings\angularjs\angular.d.ts" />
     <TypeScriptCompile Include="app\ts\typings\angularjs\angular.modules.d.ts" />
     <TypeScriptCompile Include="app\ts\typings\app\HashRouteParams.d.ts" />
+    <TypeScriptCompile Include="app\ts\typings\d3\d3.d.ts" />
+    <TypeScriptCompile Include="app\ts\typings\d3\d3.modules.d.ts" />
     <TypeScriptCompile Include="app\ts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="app\ts\typings\requirejs\require.d.ts" />
   </ItemGroup>
@@ -401,6 +404,15 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\bower_components\d3\.bower.json" />
+    <Content Include="app\bower_components\d3\.spmignore" />
+    <Content Include="app\bower_components\d3\bower.json" />
+    <Content Include="app\bower_components\d3\composer.json" />
+    <Content Include="app\bower_components\d3\CONTRIBUTING.md" />
+    <Content Include="app\bower_components\d3\LICENSE" />
+    <Content Include="app\bower_components\d3\README.md" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

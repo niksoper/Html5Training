@@ -9,7 +9,8 @@ require.config({
       'angular-resource': '../bower_components/angular-resource/angular-resource',
       'angular-mocks': '../bower_components/angular-mocks/angular-mocks',
       'jquery': '../bower_components/jquery/jquery',
-      'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap'
+      'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap',
+      'd3': '../bower_components/d3/d3'
   },
 
   shim: {
