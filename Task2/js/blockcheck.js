@@ -26,10 +26,9 @@ module.exports.GetMerkleRoot = function (block) {
 
 	console.log('Computed mrkl_root\t\t' + computedRoot);
 	console.log('Presented mrkl_root\t\t' + block.mrkl_root + (computedRoot !== block.mrkl_root ? '\tWRONG!!!' : ''));
-}
+};
 
 module.exports.GetTxHashes = function (block) {
-
 	var tx = [];
 	for (i = 0; i < block.tx.length; i++) {
 		tx.push(block.tx[i].hash);
@@ -50,7 +49,7 @@ module.exports.GetMerkleRootFromArray = function GetMrklRoot (tx) {
 	}
 
 	var hashedPairs = [];
-	for (var i = 0; i < tx.length - 1; i += 2) {
+	for (i = 0; i < tx.length - 1; i += 2) {
 
 		var swappedPair =
 			transform.SwapBytes(tx[i]) + 

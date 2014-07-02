@@ -31,4 +31,4 @@ module.exports.SwapBytes = function (hex) {
 	}
 
 	return swapped;
-}
+};
