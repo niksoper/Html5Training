@@ -8,7 +8,7 @@ export class Petri {
     cy: number;
     germs: Array<Germ>;
 
-    constructor(parent, x, y, radius, germCount, private germSize) {
+    constructor(parent, x, y, radius, txValues: Array<number>, private germSize) {
 
         this.parent = parent;
 
@@ -25,15 +25,33 @@ export class Petri {
 
         this.germs = [];
 
-        for (var i = 0; i < germCount; i++) {
-            this.addGerm();
-        }
+        var maxSpend: number = 0;
+        txValues.forEach((spend: number): void => {
+            if (spend > maxSpend) {
+                maxSpend = spend;
+            }
+        });
+
+        var self = this;
+        txValues.forEach((spend: number): void => {
+
+            // set velocity as a proportion of the highest value transaction
+            var velocity = spend / maxSpend;
+
+            // scale the velocity up to a maximum
+            velocity = velocity * 5;
+
+            // ensure that all transactions have at least some velocity
+            velocity++;
+
+            self.addGerm(velocity);
+        });
 
     }
 
-    addGerm = (): void => {
+    addGerm = (speed: number): void => {
     
-        var g = new Germ(this, this.germSize);
+        var g = new Germ(this, this.germSize, speed);
         this.germs.push(g);
 
         g.circle = this.parent.append('circle')
@@ -63,7 +81,10 @@ export class Germ {
     y: number;
     circle: any;
 
-    constructor(public parent: Petri, public r: number) {
+    constructor(
+        private parent: Petri, 
+        public r: number,
+        private v: number) {
 
         do {
 
@@ -94,8 +115,8 @@ export class Germ {
 
         do {
 
-            newX = oldX + ((Math.random() * this.r * 2) - this.r) * 0.5;
-            newY = oldY + ((Math.random() * this.r * 2) - this.r) * 0.5;
+            newX = oldX + (((Math.random() * this.r * 2) - this.r) * 0.5) * this.v;
+            newY = oldY + (((Math.random() * this.r * 2) - this.r) * 0.5) * this.v;
 
         } while (!this.testLocation(newX, newY));
 

@@ -4,16 +4,17 @@ import petri = require('directives/Petri');
 
 export function TxPetri(): any {    
 
-    var petriDirective: ng.IDirective = {
+    var petriDirective: any = {
         restrict: 'E',
         templateUrl: 'ts/directives/txpetri.html',
         scope: {
             block: '=',
             dishSize: '=',
-            germSize: '='
+            germSize: '=',
+            germSpeed: '='
         },
         link: (
-            scope: IControllerScope<explorer.ExplorerController>,
+            scope: any,
             element: ng.IAugmentedJQuery,
             attrs: ng.IAttributes): void => {
 
@@ -29,7 +30,7 @@ export function TxPetri(): any {
                 halfSize,
                 halfSize,
                 halfSize - 2,
-                scope.block.n_tx,
+                scope.block.txValues,
                 scope.germSize || 1);
 
             var animate = function animate(): boolean {

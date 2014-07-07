@@ -7,7 +7,12 @@ export interface ITransaction {
     lock_time: number;
     size: number;
     in: any;
-    out: any;
+    out: Array<ITOut>;
+}
+
+export interface ITOut {
+    value: string;
+    scriptPubKey: string;
 }
 
 export interface IBlock {

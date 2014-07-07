@@ -6,7 +6,7 @@ export class BlockViewModel {
         public index: number,
         public hash: string,
         public time: number,
-        public n_tx: number) {
+        public txValues: Array<number>) {
     }
 }
 
@@ -61,6 +61,22 @@ export class ExplorerController {
         return false;
     }
 
+    getTxValues = (transactions: Array<bc.ITransaction>): Array<number> => {
+
+        return transactions.map(function (t: bc.ITransaction) {
+
+            var total: number = 0;
+
+            t.out.forEach(function (out: bc.ITOut) {
+                total += parseFloat(out.value);
+            });
+
+            return total;
+
+        });
+
+    }
+
     addBlock = (hash: string, remaining: number): void => {
 
         if (!hash || remaining < 1) {
@@ -72,17 +88,19 @@ export class ExplorerController {
         this.$http.get('/blockexplorer/rawblock/' + hash)
             .then((response: ng.IHttpPromiseCallbackArg<bc.IBlock>): void => {
 
-                var data: bc.IBlock = response.data;
+                var blockData: bc.IBlock = response.data;
+
+                var blockTxValues = this.getTxValues(blockData.tx);
 
                 self.blocks.push(new BlockViewModel(
                     self.blocks.length + 1,
-                    data.hash,
-                    data.time,
-                    data.n_tx));
+                    blockData.hash,
+                    blockData.time,
+                    blockTxValues));
 
-                self.addBlock(data.prev_block, remaining - 1);
+                self.addBlock(blockData.prev_block, remaining - 1);
 
-                self.nextBlockHash = data.prev_block;
+                self.nextBlockHash = blockData.prev_block;
 
             },
             (response: any): any => {
