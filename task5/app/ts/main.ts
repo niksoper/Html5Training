@@ -33,7 +33,7 @@ module BitCoinClient {
     // run a function once the dependencies have been loaded by requirejs
     require(
         ['angular', 'jquery', 'bootstrap',
-         'routes', 'services'],
+         'routes', 'services', 'directives'],
         function (angular: ng.IAngularStatic, $: JQueryStatic) {
 
             $(function () {
