@@ -238,6 +238,13 @@
     <Content Include="test\test-main.js" />
     <Content Include="test\unit\controllers\explorerSpec.js" />
     <Content Include="test\unit\services\shrinkHashSpec.js" />
+    <TypeScriptCompile Include="verifyhash\bitcoin.ts" />
+    <TypeScriptCompile Include="verifyhash\blockcheck.ts" />
+    <TypeScriptCompile Include="verifyhash\blocks.ts" />
+    <TypeScriptCompile Include="verifyhash\hasher.ts" />
+    <TypeScriptCompile Include="verifyhash\main.ts" />
+    <TypeScriptCompile Include="verifyhash\reference.ts" />
+    <TypeScriptCompile Include="verifyhash\transform.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -397,9 +404,11 @@
     <TypeScriptCompile Include="app\ts\typings\angularjs\angular.d.ts" />
     <TypeScriptCompile Include="app\ts\typings\angularjs\angular.modules.d.ts" />
     <TypeScriptCompile Include="app\ts\typings\app\HashRouteParams.d.ts" />
+    <TypeScriptCompile Include="app\ts\typings\crypto\crypto.d.ts" />
     <TypeScriptCompile Include="app\ts\typings\d3\d3.d.ts" />
     <TypeScriptCompile Include="app\ts\typings\d3\d3.modules.d.ts" />
     <TypeScriptCompile Include="app\ts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="app\ts\typings\node\node.d.ts" />
     <TypeScriptCompile Include="app\ts\typings\requirejs\require.d.ts" />
   </ItemGroup>
   <ItemGroup>
