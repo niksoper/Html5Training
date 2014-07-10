@@ -1,5 +1,6 @@
 ﻿import bc = require('../bitcoin');
 import shrink = require('../services/shrinkHash');
+import verify = require('../services/verifyBlockHash');
 
 export class BlockViewModel {
     constructor(
@@ -14,9 +15,11 @@ export class ExplorerController {
 
     $http: ng.IHttpService;
 
+    shrinkHash: (hash: string) => string;
+    verifyHash: (block: bc.IBlock) => ng.IPromise<boolean>;
+
     searchText: string;
     blocks: BlockViewModel[];
-    shrinkHash: (hash: string) => string;
     newBlocks: number;
     nextBlockHash: string;
     errorMsg: string;
@@ -25,7 +28,8 @@ export class ExplorerController {
     constructor(
         $scope: IControllerScope<ExplorerController>,
         $http: ng.IHttpService,
-        shrinkHashService: shrink.ShrinkHash) {
+        shrinkHashService: shrink.ShrinkHash,
+        verifyBlockHashService: verify.VerifyHash) {
         
         this.$http = $http;
 
@@ -34,6 +38,7 @@ export class ExplorerController {
         this.newBlocks = 10;
 
         this.shrinkHash = shrinkHashService.Shrink;
+        this.verifyHash = verifyBlockHashService.Verify;
 
         this.blocks = [];
 

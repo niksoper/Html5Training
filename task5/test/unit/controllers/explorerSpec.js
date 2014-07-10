@@ -200,7 +200,9 @@ define(['controllers/explorer', 'angular-mocks', 'bitCoinApp'], function(control
 					.respond({
 						hash: 'fakehash',
 						time: 12345,
-						n_tx: 6789
+						n_tx: 6789,
+						tx: [{ out: [{ value: 5 }] },
+						     { out: [{ value: 10 }] }]
 					});
 
 				// before calling addBlock there should be no blocks
@@ -221,14 +223,18 @@ define(['controllers/explorer', 'angular-mocks', 'bitCoinApp'], function(control
 				expect(block.index).toBe(1);
 				expect(block.hash).toBe('fakehash');
 				expect(block.time).toBe(12345);
-				expect(block.n_tx).toBe(6789);
+				expect(block.txValues).toEqual([5, 10]);
 			});
 
 			it('Sets nextBlockHash if http request is successful', function() {
 
 				// set up the data to be returned from the http request
 				$httpBackend.when('GET', '/blockexplorer/rawblock/hash')
-					.respond({prev_block: 'oldblock'});
+					.respond({
+					    prev_block: 'oldblock',
+					    tx: [{ out: [{ value: 5 }] },
+						     { out: [{ value: 10 }] }]
+					});
 
 				// call the function that is being tested
 				ctrl.addBlock('hash', 1);
@@ -240,13 +246,21 @@ define(['controllers/explorer', 'angular-mocks', 'bitCoinApp'], function(control
 			it('Calls addBlock recursively with number decremented if http request is successful', function() {
 
 				$httpBackend.when('GET', '/blockexplorer/rawblock/hash')
-					.respond({prev_block: 'somehash'});
+					.respond({
+					    prev_block: 'somehash',
+					    tx: [{ out: [{ value: 5 }] },
+						     { out: [{ value: 10 }] }]
+					});
 
 				spyOn(ctrl, 'addBlock').and.callThrough();
 
 				// set up the next http request for the following recursive call
 				$httpBackend.when('GET', '/blockexplorer/rawblock/somehash')
-					.respond({prev_block: 'anotherhash'});
+					.respond({
+					    prev_block: 'anotherhash',
+					    tx: [{ out: [{ value: 5 }] },
+						     { out: [{ value: 10 }] }]
+					});
 
 				ctrl.addBlock('hash', 2);
 			
@@ -268,7 +282,10 @@ define(['controllers/explorer', 'angular-mocks', 'bitCoinApp'], function(control
 
 				// ensure that the fallback request succeeds
 				$httpBackend.when('GET', '/blockexplorer/rawblock/thisIsTheHashYouAreLookingFor')
-				.respond({});
+				.respond({
+    		        tx: [{ out: [{ value: 5 }] },
+					     { out: [{ value: 10 }] }]
+				});
 
 				spyOn(ctrl, 'addBlock').and.callThrough();
 

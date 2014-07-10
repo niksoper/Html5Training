@@ -3,6 +3,6 @@
 
 import angular = require('angular');
 
-var bitCoinApp = angular.module('bitCoinApp', ['ngRoute', 'ngResource']);
+var bitCoinApp = angular.module('bitCoinApp', ['ngRoute']);
 
 export = bitCoinApp;
