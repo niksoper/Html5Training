@@ -38,7 +38,7 @@ export class ExplorerController {
 
         $scope.vm = this;        
 
-        this.newBlocks = 10;
+        this.newBlocks = 12;
 
         this.shrinkHash = shrinkHashService.Shrink;
         this.verifyBlockService = verifyBlockHashService.Verify;

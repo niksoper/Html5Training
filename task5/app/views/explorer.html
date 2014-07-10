@@ -1,5 +1,11 @@
 ﻿
-<h2>{{vm.name}}<h2>
+<h2>{{vm.name}}</h2>
+
+<ul class="notes">
+    <li>Each block is represented as a petri dish</li>
+    <li>Each dish contains one germ per transaction</li>
+    <li>Higher value transactions swim faster than lower value transactions in the same block</li>
+</ul>
 
 <h3>{{vm.blocks.length}} blocks</h3>
 
@@ -8,39 +14,33 @@
     <input type="search" id="blockSearch" ng-model="vm.searchText" placeholder="#index or hash" />
 </div>
 
-<table class="table table-striped" ng-init="vm.addLatestBlock()">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Hash</th>
-            <th>Time</th>
-            <th>Transactions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr id="block{{b.index}}" ng-repeat="b in vm.blocks | filter:vm.filterBySearch">
-            <td>{{b.index}}</td>
-            <td>
-                <a href="#/block/{{b.hash}}" title="{{b.hash}}">{{$parent.vm.shrinkHash(b.hash)}}</a>
-                <button class="btn btn-default" ng-click="vm.verifyBlock(b)">Verify hash</button>
-                <span ng-show="b.verified">{{b.verified}}</span>
-            </td>
-            <td>{{b.time * 1000 | date:'dd-MMM, H:mm:ss'}}</td>
-            <td><tx-petri block="b" dish-size="150"></tx-petri></td>
-        </tr>
-    </tbody>
-</table>
+<div class="all-blocks" ng-init="vm.addLatestBlock()">
+    <div class="block-container" id="block{{b.index}}" ng-repeat="b in vm.blocks | filter:vm.filterBySearch">
+
+        <div><strong>#{{b.index}}</strong></div>
+
+        <a href="#/block/{{b.hash}}">
+            <span title="{{b.hash}}">{{$parent.vm.shrinkHash(b.hash)}}</span>
+
+            ({{b.time * 1000 | date:'dd-MMM, H:mm:ss'}})
+
+            <div class="dish-container">
+                <tx-petri block="b" dish-size="150"></tx-petri>
+            </div>
+                    
+        </a>
+
+        <button class="btn btn-default" ng-click="vm.verifyBlock(b)">Verify hash</button>
+        <span ng-show="b.verified">{{b.verified}}</span>
+
+    </div>
+</div>
 
 <div class="panel panel-danger" ng-show="vm.errorMsg.length">
-  <div class="panel-heading">
-    <h3 class="panel-title">Error</h3>
-  </div>
-  <div class="panel-body">{{vm.errorMsg}}</div>
+    <div class="panel-heading">
+        <h3 class="panel-title">Error</h3>
+    </div>
+    <div class="panel-body">{{vm.errorMsg}}</div>
 </div>
 
 <button class="btn btn-primary" ng-show="vm.blocks.length % vm.newBlocks === 0" ng-click="vm.addBlock(vm.nextBlockHash, vm.newBlocks)">Load {{vm.newBlocks}} more</button>
-
-<ul class="pager" ng-show="vm.blocks.length">
-    <li><a href="#" title="Previous 10 blocks">Previous</a></li>
-    <li><a href="#" title="Next 10 blocks">Next</a></li>
-</ul>

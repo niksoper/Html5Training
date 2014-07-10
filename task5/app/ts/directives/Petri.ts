@@ -20,8 +20,8 @@ export class Petri {
             .attr('cy', this.cy)
             .attr('cx', this.cx)
             .attr('r', this.r)
-            .style('fill', 'lightblue')
-            .style('stroke', 'gray');
+            .attr('fill', 'lightblue')
+            .attr('stroke', 'gray');
 
         this.germs = [];
 
@@ -59,7 +59,7 @@ export class Petri {
             .attr('cy', g.y)
             .attr('cx', g.x)
             .attr('r', g.r)
-            .style('fill', 'green');
+            .attr('fill', 'green');
     
     }
 

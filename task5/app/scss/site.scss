@@ -1,29 +1,21 @@
-$shadow: 0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white, 0 0 3px black, 0 0 2px black, 0 0 1px black;
-
 body {
-  padding-top: 40px;
-  background-image: url(../img/matrix.jpg); }
+  padding-top: 40px; 
+}
 
-h1, h3 {
-  display: inline-block;
-  text-shadow: $shadow }
+.all-blocks {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 
-a {
-  text-decoration: none;
-  font-weight: bold; }
+.block-container {
+    border: 2px solid orange;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 2px;
+    width: 250px;
+}
 
-a:hover {
-  border-bottom: 2px solid; }
-
-.prop-label::after {
-  content: ':'; }
-
-.prop-label {
-  font-weight: bold; }
-
-.page-link {
-  cursor: pointer; }
-
-
-label {
-  text-shadow: $shadow }
+.dish-container {
+    align-self: center;
+}

@@ -222,11 +222,15 @@
     <Content Include="app\bower_components\jquery\test\unit\traversing.js" />
     <Content Include="app\bower_components\requirejs\require.js" />
     <Content Include="app\css\bootstrap-themes\bootstrap-theme-cyborg.css" />
+    <Content Include="app\css\bootstrap-themes\bootstrap-theme-superhero.css" />
     <Content Include="app\css\site.css" />
     <Content Include="app\img\matrix-moving.gif" />
     <Content Include="app\img\matrix.jpg" />
     <Content Include="app\index.html" />
     <Content Include="app\reference.js" />
+    <Content Include="app\scss\site.css">
+      <DependentUpon>site.scss</DependentUpon>
+    </Content>
     <Content Include="app\server.js" />
     <Content Include="test\unit\services\verifyHashSpec.js" />
     <Content Include="verifyhash\blockcheck.js" />
@@ -427,6 +431,11 @@
     <Content Include="app\bower_components\d3\CONTRIBUTING.md" />
     <Content Include="app\bower_components\d3\LICENSE" />
     <Content Include="app\bower_components\d3\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\scss\site.css.map">
+      <DependentUpon>site.css</DependentUpon>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
