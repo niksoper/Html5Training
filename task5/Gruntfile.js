@@ -56,6 +56,16 @@ module.exports = function (grunt) {
                         rewrite: {
                             '^/blockexplorer': ''
                         }
+                    },
+                    {
+                        context: '/verifier',
+                        host: 'localhost',
+                        port: 8999,
+                        changeOrigin: true,
+                        xForward: false,
+                        rewrite: {
+                            '^/verifier': ''
+                        }
                     }
                 ],
                 options: {

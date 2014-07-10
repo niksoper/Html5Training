@@ -46,8 +46,6 @@ var onRequest = function (request, response) {
                 var computedHash = check.GetBlockHash(blockData);
                 var verified = computedHash === blockData.hash;
 
-                console.log(verified ? 'Hash was correct' : 'Hash was bad');
-
                 jsonResponse(JSON.stringify(verified), response);
 
             });

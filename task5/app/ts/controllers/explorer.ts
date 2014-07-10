@@ -3,6 +3,9 @@ import shrink = require('../services/shrinkHash');
 import verify = require('../services/verifyBlockHash');
 
 export class BlockViewModel {
+
+    public verified: string;
+
     constructor(
         public index: number,
         public hash: string,
@@ -16,7 +19,7 @@ export class ExplorerController {
     $http: ng.IHttpService;
 
     shrinkHash: (hash: string) => string;
-    verifyHash: (block: bc.IBlock) => ng.IPromise<boolean>;
+    verifyBlockService: (block: bc.IBlock) => ng.IPromise<boolean>;
 
     searchText: string;
     blocks: BlockViewModel[];
@@ -38,7 +41,7 @@ export class ExplorerController {
         this.newBlocks = 10;
 
         this.shrinkHash = shrinkHashService.Shrink;
-        this.verifyHash = verifyBlockHashService.Verify;
+        this.verifyBlockService = verifyBlockHashService.Verify;
 
         this.blocks = [];
 
@@ -118,6 +121,28 @@ export class ExplorerController {
                         self.addBlock(hash, remaining);
                     });
             });
+    }
+
+    verifyBlock = (blockViewModel: BlockViewModel): void => {
+
+        this.$http.get('/blockexplorer/rawblock/' + blockViewModel.hash)
+            .then((response: ng.IHttpPromiseCallbackArg<bc.IBlock>): void => {
+
+                var coinFlip = Math.random();
+                console.log(coinFlip);
+                if (coinFlip > 0.5) {
+                    response.data.nonce++;
+                }
+
+                this.verifyBlockService(response.data)
+                    .then((verifyResponse: ng.IHttpPromiseCallbackArg<string>): void => {
+
+                        blockViewModel.verified = verifyResponse.data === 'true' ? 'VERIFIED' : 'WRONG!!!';
+
+                    });
+
+            });
+
     }
 
     addLatestBlock = (): void => {

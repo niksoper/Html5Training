@@ -22,7 +22,8 @@
             <td>{{b.index}}</td>
             <td>
                 <a href="#/block/{{b.hash}}" title="{{b.hash}}">{{$parent.vm.shrinkHash(b.hash)}}</a>
-                <button ng-click="vm.verifyHash(b)">Verify hash</button>
+                <button class="btn btn-default" ng-click="vm.verifyBlock(b)">Verify hash</button>
+                <span ng-show="b.verified">{{b.verified}}</span>
             </td>
             <td>{{b.time * 1000 | date:'dd-MMM, H:mm:ss'}}</td>
             <td><tx-petri block="b" dish-size="150"></tx-petri></td>
